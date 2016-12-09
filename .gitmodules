@@ -1,0 +1,3 @@
+[submodule "bcf"]
+	path = bcf
+	url = https://github.com/MadeFromTheBlue/BCF.git

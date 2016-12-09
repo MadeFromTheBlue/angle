@@ -1,8 +1,8 @@
-subprojects
+configure([project(':shared'), project(':server'), project(':client')])
 {
     apply plugin: 'java'
 
-    group = 'blue.made'
+    group = 'blue.made.angle'
     version = '0.0-SNAPSHOT'
 	
 	repositories 

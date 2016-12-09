@@ -8,7 +8,8 @@ dependencies {
 	compile 'io.netty:netty-all:5.0.0.Alpha2'
 	compile 'org.apache.logging.log4j:log4j:2.5'
 	compile 'commons-cli:commons-cli:1.3.1'
-	compile 'blue.made.bcf:BCF:1.0-SNAPSHOT'
+
+	compile project(':bcf')
 
 	testCompile 'junit:junit:4.12'
 }
