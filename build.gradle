@@ -1,0 +1,13 @@
+subprojects
+{
+    apply plugin: 'java'
+
+    group = 'blue.made'
+    version = '0.0-SNAPSHOT'
+	
+	repositories 
+	{
+		mavenCentral()
+		mavenLocal()
+	}
+}
