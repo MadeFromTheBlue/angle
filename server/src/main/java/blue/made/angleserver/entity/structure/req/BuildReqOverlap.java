@@ -1,8 +1,6 @@
 package blue.made.angleserver.entity.structure.req;
 
 import blue.made.angleserver.Player;
-import blue.made.angleshared.util.Location;
-import blue.made.bcf.BCFMap;
 import blue.made.angleserver.entity.structure.Structure;
 import blue.made.angleserver.entity.structure.StructureSpec;
 import blue.made.angleserver.network.Client;
@@ -11,6 +9,8 @@ import blue.made.angleserver.util.bounds.IntersectBoundQ;
 import blue.made.angleserver.util.bounds.StoreBoundQ;
 import blue.made.angleserver.world.Chunk;
 import blue.made.angleserver.world.World;
+import blue.made.angleshared.util.Location;
+import blue.made.bcf.BCFMap;
 
 import java.util.function.Function;
 import java.util.function.Predicate;

@@ -1,5 +1,5 @@
 dependencies {
-	compile project(':shared')
+    compile project(':shared')
 
-	testCompile 'junit:junit:4.12'
+    testCompile 'junit:junit:4.12'
 }

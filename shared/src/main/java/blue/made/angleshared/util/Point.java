@@ -1,4 +1,3 @@
-
 package blue.made.angleshared.util;
 
 /**

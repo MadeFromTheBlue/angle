@@ -1,8 +1,8 @@
 package blue.made.angleserver.action;
 
+import blue.made.angleserver.Player;
 import blue.made.bcf.BCFMap;
 import blue.made.bcf.BCFWriter;
-import blue.made.angleserver.Player;
 
 import java.io.IOException;
 

@@ -1,9 +1,9 @@
 package blue.made.angleserver.world;
 
 import blue.made.angleserver.entity.Entity;
-import blue.made.angleshared.util.Location;
 import blue.made.angleserver.world.tags.TagRegistry;
 import blue.made.angleserver.world.tags.Tags;
+import blue.made.angleshared.util.Location;
 import gnu.trove.map.hash.TLongObjectHashMap;
 
 /**

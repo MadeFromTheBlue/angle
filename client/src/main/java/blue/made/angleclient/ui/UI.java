@@ -1,20 +1,23 @@
 package blue.made.angleclient.ui;
 
-import blue.made.bcf.BCFWriter;
 import blue.made.angleclient.Game;
-import blue.made.angleclient.action.*;
+import blue.made.angleclient.action.ActionRegistry;
 import blue.made.angleclient.entity.Entity;
+import blue.made.angleclient.entity.EntityRegistry;
 import blue.made.angleclient.entity.EntitySpec;
 import blue.made.angleclient.entity.structure.Structure;
-import blue.made.angleclient.entity.EntityRegistry;
 import blue.made.angleclient.entity.structure.StructureSpec;
 import blue.made.angleclient.world.Chunk;
 import blue.made.angleclient.world.Tags;
 import blue.made.angleclient.world.World;
+import blue.made.bcf.BCFWriter;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseWheelEvent;
 import java.util.ArrayList;
 import java.util.Deque;
 import java.util.LinkedList;
@@ -130,7 +133,7 @@ public class UI {
             public void onLClick() {
                 boolean flag = false;
                 /*for (Unit u : Game.INSTANCE.world.units.valueCollection()) {
-					if (u.x == (int) gu.getMouseX() && u.y == (int) gu.getMouseY()) {
+                    if (u.x == (int) gu.getMouseX() && u.y == (int) gu.getMouseY()) {
 						seled = u;
 						flag = true;
 						break;

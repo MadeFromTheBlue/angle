@@ -1,14 +1,12 @@
 package blue.made.angleserver.entity.structure;
 
 import blue.made.angleserver.entity.EntitySpec;
-import blue.made.bcf.BCFWriter;
 import blue.made.angleserver.entity.structure.req.BuildReq;
 import blue.made.angleserver.util.bounds.BoundQ;
 import blue.made.angleserver.util.bounds.ToBCFBoundQ;
-import com.google.common.collect.Lists;
+import blue.made.bcf.BCFWriter;
 
 import java.io.IOException;
-import java.util.Collection;
 import java.util.function.Consumer;
 
 /**
@@ -21,6 +19,7 @@ public abstract class StructureSpec<E extends Structure> extends EntitySpec<Stru
      * What conditions must be necessary to build this structure,
      * partially for the benefit of the client (so that the UI can
      * warn the player without contacting the server).
+     *
      * @return
      */
     public abstract BuildReq getBuildReq();
