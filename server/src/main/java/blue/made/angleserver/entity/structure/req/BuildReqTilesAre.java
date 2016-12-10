@@ -1,14 +1,14 @@
 package blue.made.angleserver.entity.structure.req;
 
 import blue.made.angleserver.Player;
-import blue.made.angleshared.util.Location;
-import blue.made.bcf.BCFMap;
 import blue.made.angleserver.entity.structure.StructureSpec;
 import blue.made.angleserver.network.Client;
 import blue.made.angleserver.util.bounds.BoundQ;
 import blue.made.angleserver.util.bounds.IterBoundQ;
 import blue.made.angleserver.world.World;
 import blue.made.angleserver.world.tags.TileTag;
+import blue.made.angleshared.util.Location;
+import blue.made.bcf.BCFMap;
 
 import java.util.function.Function;
 

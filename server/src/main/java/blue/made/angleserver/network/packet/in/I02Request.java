@@ -1,15 +1,15 @@
 package blue.made.angleserver.network.packet.in;
 
-import blue.made.bcf.BCFItem;
-import blue.made.bcf.BCFList;
-import blue.made.bcf.BCFMap;
-import blue.made.bcf.BCFReader;
 import blue.made.angleserver.Game;
 import blue.made.angleserver.entity.structure.Structure;
 import blue.made.angleserver.network.Client;
 import blue.made.angleserver.network.packet.out.O20TerrainMeta;
 import blue.made.angleserver.network.packet.out.O21TerrainChunk;
 import blue.made.angleserver.world.World;
+import blue.made.bcf.BCFItem;
+import blue.made.bcf.BCFList;
+import blue.made.bcf.BCFMap;
+import blue.made.bcf.BCFReader;
 
 import java.io.IOException;
 import java.util.HashMap;

@@ -10,21 +10,21 @@ import java.io.IOException;
  * Created by Sam Sartor on 5/26/2016.
  */
 public class I04Ping extends IPacket {
-	public static class Loader implements IPacket.Loader {
-		@Override
-		public IPacket create(ByteBuf data, Client from) throws IOException {
-			return new I04Ping(from);
-		}
-	}
+    public static class Loader implements IPacket.Loader {
+        @Override
+        public IPacket create(ByteBuf data, Client from) throws IOException {
+            return new I04Ping(from);
+        }
+    }
 
-	public long time;
+    public long time;
 
-	public I04Ping(Client sender) {
-		super(sender);
-		time = System.nanoTime();
-	}
+    public I04Ping(Client sender) {
+        super(sender);
+        time = System.nanoTime();
+    }
 
-	public void onProcessed() {
-		sender.send(new O04ReturnPing(time));
-	}
+    public void onProcessed() {
+        sender.send(new O04ReturnPing(time));
+    }
 }

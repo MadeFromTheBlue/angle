@@ -1,10 +1,10 @@
 package blue.made.angleserver.entity.structure.req;
 
 import blue.made.angleserver.Player;
-import blue.made.bcf.BCFMap;
 import blue.made.angleserver.entity.structure.StructureSpec;
 import blue.made.angleserver.network.Client;
 import blue.made.angleserver.world.World;
+import blue.made.bcf.BCFMap;
 
 /**
  * Created by Sam Sartor on 6/9/2016.

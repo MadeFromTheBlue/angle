@@ -14,29 +14,30 @@ import java.lang.reflect.Type;
  * Created by sam on 12/8/16.
  */
 public class JSONConfig {
-	private static Gson gson = new Gson();
+    private static Gson gson = new Gson();
 
-	public static void loadWorld(World world, JsonElement json) {
-		JsonObject jsonObject = json.getAsJsonObject().get("board").getAsJsonObject();
+    public static void loadWorld(World world, JsonElement json) {
+        JsonObject jsonObject = json.getAsJsonObject().get("board").getAsJsonObject();
 
-		// Deserialize the primitives
-		int width = jsonObject.get("width").getAsInt();
-		int height = jsonObject.get("height").getAsInt();
+        // Deserialize the primitives
+        int width = jsonObject.get("width").getAsInt();
+        int height = jsonObject.get("height").getAsInt();
 
-		world.buildInitial(width, height);
+        world.buildInitial(width, height);
 
-		// Deserialize the squareTypes
-		Type stringArrayType = new TypeToken<String[]>() {}.getType();
+        // Deserialize the squareTypes
+        Type stringArrayType = new TypeToken<String[]>() {
+        }.getType();
 
-		String[] squareTypes = gson.fromJson(jsonObject.get("squareTypes").getAsJsonArray(), stringArrayType);
+        String[] squareTypes = gson.fromJson(jsonObject.get("squareTypes").getAsJsonArray(), stringArrayType);
 
-		for (int i = 0; i < width; i++) {
-			for (int j = 0; j < height; j++) {
-				Tile tile = world.getTile(i, j);
+        for (int i = 0; i < width; i++) {
+            for (int j = 0; j < height; j++) {
+                Tile tile = world.getTile(i, j);
 
-				if (squareTypes[j].charAt(i) == 'T') tile.addTag(Tags.path);
-				else tile.addTag(Tags.ground);
-			}
-		}
-	}
+                if (squareTypes[j].charAt(i) == 'T') tile.addTag(Tags.path);
+                else tile.addTag(Tags.ground);
+            }
+        }
+    }
 }

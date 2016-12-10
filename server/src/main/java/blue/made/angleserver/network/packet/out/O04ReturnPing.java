@@ -8,17 +8,17 @@ import java.io.IOException;
  * Created by Sam Sartor on 5/26/2016.
  */
 public class O04ReturnPing extends OPacketBCF {
-	public long pingReceiveTime;
+    public long pingReceiveTime;
 
-	public O04ReturnPing(long pingReceiveTime) {
-		super(0x02);
-	}
+    public O04ReturnPing(long pingReceiveTime) {
+        super(0x02);
+    }
 
-	@Override
-	public void writeData(BCFWriter bcf) throws IOException {
-		BCFWriter.Map map = bcf.startMap();
-		map.writeName("queue_time");
-		map.write(pingReceiveTime - System.nanoTime());
-		map.end();
-	}
+    @Override
+    public void writeData(BCFWriter bcf) throws IOException {
+        BCFWriter.Map map = bcf.startMap();
+        map.writeName("queue_time");
+        map.write(pingReceiveTime - System.nanoTime());
+        map.end();
+    }
 }

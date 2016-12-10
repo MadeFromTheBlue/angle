@@ -1,17 +1,17 @@
 package blue.made.angleclient.network.packet;
 
-import blue.made.bcf.*;
 import blue.made.angleclient.Game;
 import blue.made.angleclient.action.Action;
 import blue.made.angleclient.action.ActionRegistry;
 import blue.made.angleclient.entity.Entity;
-import blue.made.angleclient.entity.EntitySpec;
 import blue.made.angleclient.entity.EntityRegistry;
+import blue.made.angleclient.entity.EntitySpec;
 import blue.made.angleclient.entity.structure.StructureSpec;
 import blue.made.angleclient.network.packet.in.ServerInfo;
 import blue.made.angleclient.world.Chunk;
 import blue.made.angleclient.world.Tags;
 import blue.made.angleclient.world.World;
+import blue.made.bcf.*;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import io.netty.buffer.ByteBuf;
@@ -198,7 +198,7 @@ public class PacketManager {
             return (IPacket) () -> {
                 Entity a = null;
                 /*
-				a = game.world.units.get(uuid);
+                a = game.world.units.get(uuid);
 				if (a == null) a = game.world.structure.get(uuid);
 				*/
 

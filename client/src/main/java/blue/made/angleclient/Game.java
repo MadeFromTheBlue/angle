@@ -10,15 +10,15 @@ import java.util.function.Consumer;
  * Created by Sam Sartor on 5/31/2016.
  */
 public class Game {
-	public static Game INSTANCE = new Game();
+    public static Game INSTANCE = new Game();
 
-	public World world;
-	public Network net;
+    public World world;
+    public Network net;
 
-	public Consumer<Game> onWorldLoad;
-	public UI ui;
+    public Consumer<Game> onWorldLoad;
+    public UI ui;
 
-	public void onWorldLoad(Consumer<Game> adapter) {
-		onWorldLoad = adapter;
-	}
+    public void onWorldLoad(Consumer<Game> adapter) {
+        onWorldLoad = adapter;
+    }
 }

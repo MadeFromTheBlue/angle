@@ -1,13 +1,13 @@
 package blue.made.angleserver.entity.structure;
 
-import blue.made.angleserver.entity.Entity;
-import blue.made.angleshared.util.Location;
-import blue.made.bcf.BCFWriter;
 import blue.made.angleserver.Game;
+import blue.made.angleserver.entity.Entity;
 import blue.made.angleserver.util.bounds.BoundQ;
 import blue.made.angleserver.util.bounds.GridBoundQ;
 import blue.made.angleserver.util.bounds.ToBCFBoundQ;
 import blue.made.angleserver.world.World;
+import blue.made.angleshared.util.Location;
+import blue.made.bcf.BCFWriter;
 
 import java.io.IOException;
 import java.util.HashSet;
@@ -51,7 +51,7 @@ public abstract class Structure extends Entity {
 
     /**
      * Called by {@link World#addToWorld(Entity)}.
-     *
+     * <p>
      * Responsible for adding the structure to its corresponding chunks.
      */
     @Override

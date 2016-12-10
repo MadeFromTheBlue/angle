@@ -7,16 +7,16 @@ import java.util.HashMap;
  */
 // Populated by Entities.java
 public class EntityRegistry {
-	public static HashMap<String, EntitySpec> registry = new HashMap<>();
+    public static HashMap<String, EntitySpec> registry = new HashMap<>();
 
-	public static <S extends EntitySpec> S register(String group, String id, S spec) {
-		id = group + "." + id;
-		spec.registeredId = id;
-		registry.put(id, spec);
-		return spec;
-	}
+    public static <S extends EntitySpec> S register(String group, String id, S spec) {
+        id = group + "." + id;
+        spec.registeredId = id;
+        registry.put(id, spec);
+        return spec;
+    }
 
-	public static <S extends EntitySpec> S register(String id, S spec) {
-		return register("angle", id, spec);
-	}
+    public static <S extends EntitySpec> S register(String id, S spec) {
+        return register("angle", id, spec);
+    }
 }

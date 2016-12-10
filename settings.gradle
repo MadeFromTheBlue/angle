@@ -1,1 +1,1 @@
-include "bcf", "client", "server", "shared"
+include "bcf", "bluegin", "client", "server", "shared"

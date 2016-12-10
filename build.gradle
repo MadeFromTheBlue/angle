@@ -1,13 +1,13 @@
 configure([project(':shared'), project(':server'), project(':client')])
-{
-    apply plugin: 'java'
+        {
+            apply plugin: 'java'
 
-    group = 'blue.made.angle'
-    version = '0.0-SNAPSHOT'
-	
-	repositories 
-	{
-		mavenCentral()
-		mavenLocal()
-	}
-}
+            group = 'blue.made.angle'
+            version = '0.0-SNAPSHOT'
+
+            repositories
+                    {
+                        mavenCentral()
+                        mavenLocal()
+                    }
+        }
