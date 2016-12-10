@@ -21,7 +21,7 @@ public class SpawnEntity extends Action {
         EntitySpec spec = EntityRegistry.registry.get(id);
 
         if (spec == null) {
-            Game.INSTANCE.world.addToWorld(spec.requestSpawn(player, data));
+            Game.INSTANCE.world.spawnInWorld(spec.createViaPlayer(player, data));
         }
     }
 }

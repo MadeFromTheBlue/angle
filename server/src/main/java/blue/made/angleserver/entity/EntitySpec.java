@@ -25,7 +25,7 @@ public abstract class EntitySpec<E extends Entity> {
     /**
      * Called when a player sends a {@link blue.made.angleserver.action.actions.SpawnEntity} action.
      */
-    public abstract E requestSpawn(Player p, BCFMap data);
+    public abstract E createViaPlayer(Player p, BCFMap data);
 
     public long newUUID() {
         return Util.generateUUID();

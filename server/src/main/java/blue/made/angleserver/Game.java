@@ -4,6 +4,7 @@ import blue.made.angleserver.action.Actions;
 import blue.made.angleserver.config.JSONConfig;
 import blue.made.angleserver.entity.Entities;
 import blue.made.angleserver.network.Client;
+import blue.made.angleserver.network.packet.out.OPacket;
 import blue.made.angleserver.world.World;
 import blue.made.angleserver.world.tags.TagRegistry;
 import blue.made.angleshared.util.Util;
@@ -50,6 +51,12 @@ public class Game {
 
     public void run() {
 
+    }
+
+    public void sendToAll(OPacket o) {
+        for (Client c : this.active) {
+            c.send(o);
+        }
     }
 
     private static Random uuidr = new Random();

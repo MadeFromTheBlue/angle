@@ -41,7 +41,7 @@ public abstract class AOETower extends Tower {
     }
 
     @Override
-    public Entity requestSpawn(Player p, BCFMap data) {
+    public Entity createViaPlayer(Player p, BCFMap data) {
         return new AOETowerEntity(newUUID());
     }
 

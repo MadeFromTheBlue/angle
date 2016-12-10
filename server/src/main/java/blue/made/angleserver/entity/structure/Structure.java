@@ -50,7 +50,7 @@ public abstract class Structure extends Entity {
     }
 
     /**
-     * Called by {@link World#addToWorld(Entity)}.
+     * Called by {@link World#spawnInWorld(Entity)}.
      * <p>
      * Responsible for adding the structure to its corresponding chunks.
      */
