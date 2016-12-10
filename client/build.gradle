@@ -1,5 +1,6 @@
 dependencies {
 	compile project(':shared')
+	compile project(':bluegin')
 
 	testCompile 'junit:junit:4.12'
 }

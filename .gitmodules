@@ -1,3 +1,6 @@
 [submodule "bcf"]
 	path = bcf
 	url = https://github.com/MadeFromTheBlue/BCF.git
+[submodule "bluegin"]
+	path = bluegin
+	url = https://github.com/MadeFromTheBlue/BlueGin.git
