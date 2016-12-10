@@ -14,6 +14,7 @@ import java.util.function.Consumer;
  */
 public abstract class DirectionalTower extends Tower{
     public class DirectionalTowerEntity extends Tower.TowerEntity {
+        public float angle;
         public DirectionalTowerEntity(long uuid) {
             super(uuid);
         }
@@ -24,13 +25,13 @@ public abstract class DirectionalTower extends Tower{
         }
 
         public void setAngle(float angle, World world) {
-            
+            this.angle = angle;
         }
 
         @Override
         public boolean attack(Entity e) {
             // TODO check if in radius
-            return ((AOETower) getSpec()).attack(e, this);
+            return ((DirectionalTower) getSpec()).attack(e, this);
         }
 
         @Override
