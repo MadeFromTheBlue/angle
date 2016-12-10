@@ -1,6 +1,9 @@
 package blue.made.angleserver.world;
 
+import blue.made.angleserver.Game;
 import blue.made.angleserver.entity.Entity;
+import blue.made.angleserver.network.Client;
+import blue.made.angleserver.network.packet.out.O40SpawnEntity;
 import blue.made.angleserver.world.tags.TagRegistry;
 import blue.made.angleserver.world.tags.Tags;
 import blue.made.angleshared.util.Location;
@@ -40,9 +43,10 @@ public class World {
         });
     }
 
-    public void addToWorld(Entity e) {
+    public void spawnInWorld(Entity e) {
         this.entities.put(e.uuid, e);
         e.postSpawn();
+        Game.INSTANCE.sendToAll(new O40SpawnEntity(e));
     }
 
     private int roundUp(int n, int m) {

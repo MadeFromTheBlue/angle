@@ -19,7 +19,7 @@ public abstract class Entity {
     }
 
     /**
-     * Called by {@link World#addToWorld(Entity)}.
+     * Called by {@link World#spawnInWorld(Entity)}.
      */
     public abstract void postSpawn();
 
