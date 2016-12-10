@@ -10,11 +10,11 @@ import blue.made.bcf.BCFMap;
 import java.util.function.Consumer;
 
 /**
- * Created by sam on 12/8/16.
+ * Created by Mobius on 12/10/16.
  */
-public abstract class AOETower extends Tower {
-    public class AOETowerEntity extends Tower.TowerEntity {
-        public AOETowerEntity(long uuid) {
+public abstract class DirectionalTower extends Tower{
+    public class DirectionalTowerEntity extends Tower.TowerEntity {
+        public DirectionalTowerEntity(long uuid) {
             super(uuid);
         }
 
@@ -31,7 +31,7 @@ public abstract class AOETower extends Tower {
 
         @Override
         public EntitySpec<Entity> getSpec() {
-            return AOETower.this;
+            return DirectionalTower.this;
         }
     }
 
@@ -42,12 +42,11 @@ public abstract class AOETower extends Tower {
 
     @Override
     public Entity requestSpawn(Player p, BCFMap data) {
-        return new AOETowerEntity(newUUID());
+        return new DirectionalTower.DirectionalTowerEntity(newUUID());
     }
 
     /**
      * Do the attack.
      */
-    protected abstract boolean attack(Entity target, DirectionalTower.DirectionalTowerEntity attacker);
-
+    protected abstract boolean attack(Entity target, AOETower.AOETowerEntity attacker);
 }
