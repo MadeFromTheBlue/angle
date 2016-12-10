@@ -1,7 +1,7 @@
 package blue.made.angleserver.entity.structure.tower;
 
 import blue.made.angleserver.entity.Entity;
-import blue.made.angleserver.entity.structure.Structure;
+import blue.made.angleserver.entity.structure.StructureEntity;
 import blue.made.angleserver.entity.structure.StructureSpec;
 import blue.made.angleserver.entity.structure.req.BuildReq;
 import blue.made.angleserver.entity.structure.req.BuildReqAnd;
@@ -20,7 +20,7 @@ import java.util.function.Consumer;
  * Created by sam on 12/8/16.
  */
 public abstract class Tower<E extends Tower.TowerEntity> extends StructureSpec<E> {
-    public static abstract class TowerEntity extends Structure {
+    public static abstract class TowerEntity extends StructureEntity {
         public Chunk[] toAttack = new Chunk[0];
 
         public TowerEntity(long uuid) {

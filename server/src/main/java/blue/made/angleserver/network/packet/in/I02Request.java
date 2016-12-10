@@ -1,7 +1,7 @@
 package blue.made.angleserver.network.packet.in;
 
 import blue.made.angleserver.Game;
-import blue.made.angleserver.entity.structure.Structure;
+import blue.made.angleserver.entity.structure.StructureEntity;
 import blue.made.angleserver.network.Client;
 import blue.made.angleserver.network.packet.out.O20TerrainMeta;
 import blue.made.angleserver.network.packet.out.O21TerrainChunk;
@@ -86,7 +86,7 @@ public class I02Request extends IPacket {
 
     private static void sendChunk(Client from, World w, int x, int y) {
         from.send(new O21TerrainChunk(w, x, y));
-        for (Structure s : w.getChunk(x, y).structures) {
+        for (StructureEntity s : w.getChunk(x, y).structures) {
             //from.send(new O40SpawnEntity(s)); // TODO Signal not build, just show
         }
     }

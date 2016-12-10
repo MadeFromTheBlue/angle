@@ -1,7 +1,7 @@
 package blue.made.angleserver.entity.structure.req;
 
 import blue.made.angleserver.Player;
-import blue.made.angleserver.entity.structure.Structure;
+import blue.made.angleserver.entity.structure.StructureEntity;
 import blue.made.angleserver.entity.structure.StructureSpec;
 import blue.made.angleserver.network.Client;
 import blue.made.angleserver.util.bounds.GridBoundQ;
@@ -33,7 +33,7 @@ public class BuildReqOverlap implements BuildReq {
         public Boolean apply(Location cl) {
             if (!out) return true;
             Chunk c = world.getChunk(cl.x, cl.y);
-            for (Structure s : c.structures) {
+            for (StructureEntity s : c.structures) {
                 iq.reset();
                 s.getBounds().accept(iq);
                 if (iq.intersects() && (predicate == null || predicate.test(s))) {
@@ -45,9 +45,9 @@ public class BuildReqOverlap implements BuildReq {
         }
     }
 
-    public Predicate<Structure> predicate;
+    public Predicate<StructureEntity> predicate;
 
-    public BuildReqOverlap(Predicate<Structure> predicate) {
+    public BuildReqOverlap(Predicate<StructureEntity> predicate) {
         this.predicate = predicate;
     }
 

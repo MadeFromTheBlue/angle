@@ -17,12 +17,12 @@ import java.util.function.Consumer;
 /**
  * Created by Sam Sartor on 5/16/2016.
  */
-public abstract class Structure extends Entity {
+public abstract class StructureEntity extends Entity {
     public int centerx;
     public int centery;
     public byte rotation = 0;
 
-    public Structure(long uuid) {
+    public StructureEntity(long uuid) {
         super(uuid);
     }
 

@@ -12,7 +12,7 @@ import java.util.function.Consumer;
 /**
  * Created by Sam Sartor on 5/16/2016.
  */
-public abstract class StructureSpec<E extends Structure> extends EntitySpec<Structure> {
+public abstract class StructureSpec<E extends StructureEntity> extends EntitySpec<StructureEntity> {
     public abstract Consumer<BoundQ> getDefaultBounds();
 
     /**
