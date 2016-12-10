@@ -23,6 +23,10 @@ public abstract class DirectionalTower extends Tower{
             buildTargets(world, q -> q.box(-rad, -rad, rad, rad));
         }
 
+        public void setAngle(float angle, World world) {
+            
+        }
+
         @Override
         public boolean attack(Entity e) {
             // TODO check if in radius
@@ -48,5 +52,5 @@ public abstract class DirectionalTower extends Tower{
     /**
      * Do the attack.
      */
-    protected abstract boolean attack(Entity target, AOETower.AOETowerEntity attacker);
+    protected abstract boolean attack(Entity target, DirectionalTower.DirectionalTowerEntity attacker);
 }
