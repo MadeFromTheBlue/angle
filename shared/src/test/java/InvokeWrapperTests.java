@@ -14,7 +14,7 @@ import static org.junit.Assert.assertTrue;
 /**
  * Created by Sam Sartor on 12/15/2016.
  */
-public class InvokeWrapperTests {
+public class InvokeWrapperTests extends TestBase {
     public static class TestMethods {
         public TestMethods() {
         }
@@ -41,7 +41,7 @@ public class InvokeWrapperTests {
     }
 
     @Test
-    public void testConstructorException()  {
+    public void testConstructorException() {
         Exception ex = new Exception();
         try {
             InvokeWrapper
@@ -54,7 +54,7 @@ public class InvokeWrapperTests {
     }
 
     @Test
-    public void testStaticMethodException()  {
+    public void testStaticMethodException() {
         Exception ex = new Exception();
         try {
             InvokeWrapper
@@ -67,7 +67,7 @@ public class InvokeWrapperTests {
     }
 
     @Test
-    public void testMethodException()  {
+    public void testMethodException() {
         Exception ex = new Exception();
         try {
             InvokeOnWrapper
@@ -80,21 +80,21 @@ public class InvokeWrapperTests {
     }
 
     @Test
-    public void testMethod()  {
+    public void testMethod() {
         assertEquals(16, (int) InvokeOnWrapper
                 .method(TestMethods.class, "mul2", int.class)
                 .invokeOn(new TestMethods(), 8));
     }
 
     @Test
-    public void testStaticMethod()  {
+    public void testStaticMethod() {
         assertEquals(16, (int) InvokeWrapper
                 .staticMethod(TestMethods.class, "mul2Static", int.class)
                 .invoke(8));
     }
 
     @Test
-    public void testConstructor()  {
+    public void testConstructor() {
         assertTrue(InvokeWrapper
                 .constructor(TestMethods.class)
                 .invoke() instanceof TestMethods);
