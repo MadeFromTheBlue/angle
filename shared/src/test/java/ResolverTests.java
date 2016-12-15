@@ -1,5 +1,6 @@
 import _resolvertest.*;
 import _resolvertest.subpack.NestedTest;
+import blue.made.angleshared.resolver.InvocationException;
 import blue.made.angleshared.resolver.Resolver;
 import org.junit.*;
 
@@ -47,8 +48,20 @@ public class ResolverTests {
         assertEquals(((ProvidesOne) res.creator("foo").invoke()).i, -1);
         assertEquals(((ProvidesOne) res.creator("foo", int.class).invoke(10)).i, 10);
     }
+
     @Test
-    public void testBadParams() throws NoSuchMethodException {
+    public void testBadParams() {
         assertNull(res.creator("foo", Object.class));
+    }
+
+    @Test
+    public void testConstructorException()  {
+        Exception ex = new Exception();
+        try {
+            res.creator("foo", Exception.class).invoke(ex);
+            assertTrue("Not thrown", false);
+        } catch (InvocationException ie) {
+            assertSame(ex, ie.getCause());
+        }
     }
 }

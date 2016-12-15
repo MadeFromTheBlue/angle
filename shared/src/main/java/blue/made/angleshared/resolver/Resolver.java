@@ -1,6 +1,7 @@
 package blue.made.angleshared.resolver;
 
 import com.google.common.reflect.ClassPath;
+import com.google.common.reflect.Invokable;
 import org.reflections.Reflections;
 
 import java.io.IOException;
@@ -89,13 +90,8 @@ public class Resolver {
         if (provider == null) return null;
         try {
             Constructor<?> constructor = provider.getConstructor(params);
-            return o -> {
-                try {
-                    return constructor.newInstance(o);
-                } catch (InstantiationException | IllegalAccessException | InvocationTargetException e) {
-                    throw new IllegalArgumentException(e);
-                }
-            };
+            constructor.setAccessible(true);
+            return InvokeWrapper.from(constructor);
         } catch (NoSuchMethodException e) {
             return null;
         }

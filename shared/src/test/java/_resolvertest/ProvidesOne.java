@@ -19,7 +19,7 @@ public class ProvidesOne {
         this.i = i;
     }
 
-    public ProvidesOne(List<Integer> l) {
-        this(l.get(0));
+    public ProvidesOne(Exception e) throws Exception {
+        throw e;
     }
 }
