@@ -7,5 +7,4 @@ import blue.made.angleshared.resolver.Provides;
  */
 @Provides("bar1")
 @Provides("bar2")
-public class ProvidesTwo {
-}
+public class ProvidesTwo {}
