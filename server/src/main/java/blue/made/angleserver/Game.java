@@ -10,7 +10,6 @@ import blue.made.angleshared.util.Util;
 
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
-import java.util.Random;
 
 /**
  * Created by Sam Sartor on 5/9/2016.
@@ -48,11 +47,5 @@ public class Game {
 
     public void run() {
 
-    }
-
-    private static Random uuidr = new Random();
-
-    public static synchronized long newUUID() {
-        return System.currentTimeMillis() ^ ((long) uuidr.nextInt() << 24);
     }
 }

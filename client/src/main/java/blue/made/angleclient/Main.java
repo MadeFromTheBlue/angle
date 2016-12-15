@@ -13,12 +13,19 @@ public class Main {
 
     public static void main(String[] args) throws Exception {
         String name = "test2d";
+
+        Game.INSTANCE.start();
+
+        // Connect the network
         Network net = new Network(HOST, PORT);
         net.connect();
         Game.INSTANCE.net = net;
+
+        // Connect the UI
         UI ui = new UI();
         ui.show(Game.INSTANCE);
         Game.INSTANCE.ui = ui;
+
         net.send(data -> {
             BCFWriter bcf = new BCFWriter(data);
             BCFWriter.Map map = bcf.startMap();
@@ -27,6 +34,7 @@ public class Main {
             map.end();
             return 0x01;
         });
+
         net.send(data -> {
             BCFWriter bcf = new BCFWriter(data);
             BCFWriter.Map map = bcf.startMap();

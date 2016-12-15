@@ -172,7 +172,7 @@ public class PacketManager {
 
             return (IPacket) () -> {
                 Entity a = null;
-                /*
+                /* TODO: Make this work
                 a = game.world.units.get(uuid);
 				if (a == null) a = game.world.structure.get(uuid);
 				*/

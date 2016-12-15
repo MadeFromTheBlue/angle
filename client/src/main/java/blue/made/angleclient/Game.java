@@ -20,6 +20,10 @@ public class Game {
     public Consumer<Game> onWorldLoad;
     public UI ui;
 
+    public void start() {
+        resolver.addPackage("blue.made.angleclient.entity");
+    }
+
     public void onWorldLoad(Consumer<Game> adapter) {
         onWorldLoad = adapter;
     }
