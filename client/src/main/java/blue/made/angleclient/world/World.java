@@ -1,6 +1,5 @@
 package blue.made.angleclient.world;
 
-import blue.made.angleclient.entity.structure.Structure;
 import gnu.trove.map.hash.TLongObjectHashMap;
 
 import java.util.function.Consumer;
@@ -17,7 +16,7 @@ public class World {
 
     public final Chunk[][] chunks;
 
-    public final TLongObjectHashMap<Structure> structures = new TLongObjectHashMap<>();
+    //public final TLongObjectHashMap<Structure> structures = new TLongObjectHashMap<>();
 
     public Tags tags;
 

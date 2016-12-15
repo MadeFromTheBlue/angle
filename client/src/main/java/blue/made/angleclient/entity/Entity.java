@@ -11,7 +11,6 @@ import java.util.Random;
  */
 public abstract class Entity {
     public final long uuid;
-    public EntitySpec spec;
     public Color color;
 
     public Entity(long uuid) {

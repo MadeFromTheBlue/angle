@@ -3,8 +3,6 @@ package blue.made.angleserver.action.actions;
 import blue.made.angleserver.Game;
 import blue.made.angleserver.Player;
 import blue.made.angleserver.action.Action;
-import blue.made.angleserver.entity.EntityRegistry;
-import blue.made.angleserver.entity.EntitySpec;
 import blue.made.bcf.BCFMap;
 
 /**
@@ -18,10 +16,6 @@ public class SpawnEntity extends Action {
         // TODO: better error handling
         if (id == null) return;
 
-        EntitySpec spec = EntityRegistry.registry.get(id);
-
-        if (spec == null) {
-            Game.INSTANCE.world.addToWorld(spec.requestSpawn(player, data));
-        }
+        // TODO: Spawn an actual entity (pull from config)
     }
 }

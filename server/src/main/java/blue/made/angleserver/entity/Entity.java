@@ -10,6 +10,7 @@ import java.io.IOException;
  */
 public abstract class Entity {
     public final long uuid;
+    private boolean spawned = false;
 
     /**
      * Takes a UUID instead of generating a new one so that games towers can be saved and reloaded in the future.
@@ -19,14 +20,18 @@ public abstract class Entity {
     }
 
     /**
-     * Called by {@link World#addToWorld(Entity)}.
+     * Called by {@link #spawn()}
      */
-    public abstract void postSpawn();
+    protected abstract void onSpawn();
 
-    /**
-     * @return the {@link EntitySpec} responsible for this entity's creation & properties.
-     */
-    public abstract EntitySpec<Entity> getSpec();
+    protected abstract boolean checkSpawn();
+
+    public final boolean spawn() {
+        if (!checkSpawn()) return false;
+        onSpawn();
+        spawned = true;
+        return true;
+    }
 
     /**
      * Writes the data needed by the client to first display this entity.
@@ -37,4 +42,8 @@ public abstract class Entity {
     }
 
     public abstract void tick(World world);
+
+    public boolean isSpawned() {
+        return spawned;
+    }
 }

@@ -3,6 +3,7 @@ package blue.made.angleclient;
 import blue.made.angleclient.network.Network;
 import blue.made.angleclient.ui.UI;
 import blue.made.angleclient.world.World;
+import blue.made.angleshared.resolver.Resolver;
 
 import java.util.function.Consumer;
 
@@ -11,6 +12,7 @@ import java.util.function.Consumer;
  */
 public class Game {
     public static Game INSTANCE = new Game();
+    public static Resolver resolver = new Resolver();
 
     public World world;
     public Network net;

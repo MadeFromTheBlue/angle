@@ -25,18 +25,22 @@ public class Resolver {
 
     public void add(Class<?> c) {
         for (Annotation a : c.getAnnotations()) {
+
             if (a instanceof ProvidesMany) {
                 // Find all types that this class provides and puts them into the providedBy map
                 ProvidesMany provides = (ProvidesMany) a;
                 Stream.of(provides.value())
                         .map(Provides::value)
                         .forEach(s -> providedBy.put(s, c));
+            } else if (a instanceof Provides) {
+                // This is the case when there is only one annotation, in which case we need to
+                providedBy.put(((Provides) a).value(), c);
             }
         }
     }
 
-    public void add(Package p) {
-        cp.getTopLevelClassesRecursive(p.getName()).forEach(c -> add(c.load()));
+    public void addPackage(String packageName) {
+        cp.getTopLevelClassesRecursive(packageName).forEach(c -> add(c.load()));
     }
 
     public Object create(String type, Object... params) {

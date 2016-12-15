@@ -1,4 +1,4 @@
-import blue.made.angleserver.tmp.config.Level;
+/*import blue.made.angleserver.tmp.config.Level;
 import blue.made.angleserver.tmp.config.Square;
 import blue.made.angleserver.tmp.logic.Game;
 import blue.made.angleserver.tmp.logic.minions.Minion;
@@ -77,3 +77,4 @@ public class ConfigLoadTests extends TestBase {
     }
 
 }
+*/
