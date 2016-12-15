@@ -53,15 +53,4 @@ public class ResolverTests {
     public void testBadParams() {
         assertNull(res.creator("foo", Object.class));
     }
-
-    @Test
-    public void testConstructorException()  {
-        Exception ex = new Exception();
-        try {
-            res.creator("foo", Exception.class).invoke(ex);
-            assertTrue("Not thrown", false);
-        } catch (InvocationException ie) {
-            assertSame(ex, ie.getCause());
-        }
-    }
 }

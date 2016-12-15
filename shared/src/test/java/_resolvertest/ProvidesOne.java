@@ -18,8 +18,4 @@ public class ProvidesOne {
     public ProvidesOne(int i) {
         this.i = i;
     }
-
-    public ProvidesOne(Exception e) throws Exception {
-        throw e;
-    }
 }

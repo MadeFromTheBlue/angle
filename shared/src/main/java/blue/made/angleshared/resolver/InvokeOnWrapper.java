@@ -17,6 +17,16 @@ public interface InvokeOnWrapper {
      */
     public Object invokeOn(Object on, Object... params);
 
+    public static InvokeOnWrapper method(Class<?> clas, String name, Class<?>... params) {
+        try {
+            Method method = clas.getMethod(name, params);
+            method.setAccessible(true);
+            return from(method);
+        } catch (NoSuchMethodException e) {
+            return null;
+        }
+    }
+
     public static InvokeOnWrapper from(Method method) {
         return (o, p) -> {
             try {

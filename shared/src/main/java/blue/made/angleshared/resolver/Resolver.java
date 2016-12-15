@@ -88,12 +88,6 @@ public class Resolver {
     public InvokeWrapper creator(String id, Class<?>... params) {
         Class<?> provider = providedBy.get(id);
         if (provider == null) return null;
-        try {
-            Constructor<?> constructor = provider.getConstructor(params);
-            constructor.setAccessible(true);
-            return InvokeWrapper.from(constructor);
-        } catch (NoSuchMethodException e) {
-            return null;
-        }
+        return InvokeWrapper.constructor(provider, params);
     }
 }
