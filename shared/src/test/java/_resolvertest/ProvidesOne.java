@@ -18,4 +18,8 @@ public class ProvidesOne {
     public ProvidesOne(int i) {
         this.i = i;
     }
+
+    public ProvidesOne(List<Integer> l) {
+        this(l.get(0));
+    }
 }

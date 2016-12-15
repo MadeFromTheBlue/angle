@@ -12,6 +12,7 @@ import java.util.*;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.IntFunction;
+import java.util.function.Predicate;
 import java.util.stream.Stream;
 
 /**
@@ -29,8 +30,13 @@ public class Resolver {
         }
     }
 
+    /**
+     * Adds a class that can be instantiated by {@link #creator(String, Class[])}.
+     * This function will register the class to the ids listed by one or more {@link Provides}
+     * annotations. If the class does not have a @Provides annotation, then
+     * this does absolutely nothing.
+     */
     public void add(Class<?> c) {
-
         for (Annotation a : c.getAnnotations()) {
             if (a instanceof ProvidesMany) {
                 // Find all types that this class provides and puts them into the providedBy map
@@ -47,43 +53,50 @@ public class Resolver {
         }
     }
 
+    /**
+     * An unfiltered version of {@link #addPackage(String, Predicate)}.
+     */
     public void addPackage(String packageName) {
-        cp.getTopLevelClassesRecursive(packageName).forEach(c -> add(c.load()));
-    }
-
-    public InvokeWrapper creator(String type, Class<?>... params) throws NoSuchMethodException {
-        Class<?> provider = providedBy.get(type);
-        Constructor<?> c = provider.getConstructor(params);
-        return o -> {
-            try {
-                return c.newInstance(o);
-            } catch (InstantiationException | IllegalAccessException | InvocationTargetException e) {
-                e.printStackTrace();
-                return null;
-            }
-        };
+        addPackage(packageName, c -> true);
     }
 
     /**
-     * This is a quick and dirty method for creating instances. It is deprecated because:
-     * <ul>
-     *     <li>It is slow to do this every time</li>
-     *     <li>IT WILL NOT WORK ON CONSTRUCTORS THAT ACCEPT PRIMITIVES (int, float, boolean, etc.)</li>
-     * </ul>
-     * Use {@link #creator(String, Class[])} instead.
+     * Search a package (and all subpackages) for classes with one or more {@link Provides} annotations,
+     * registering them with {@link #add(Class)} if they pass the {@code filter}.
+     *
+     * @param packageName The name of the package to search (i.e. {@code blue.made.angleserver.entity})
+     * @param only A filter
      */
-    @Deprecated
-    public Object create(String type, Object... params) throws NoSuchMethodException {
-        Class<?> provider = providedBy.get(type);
+    public void addPackage(String packageName, Predicate<Class<?>> only) {
+        cp.getTopLevelClassesRecursive(packageName)
+                .stream()
+                .map(ClassPath.ClassInfo::load)
+                .filter(only)
+                .forEach(this::add);
+    }
+
+    /**
+     * Provides a functional interface that can be invoked to produce a new instance of the class registered to
+     * {@code id}. The interface wraps a constructor that takes arguments of type {@code params} as input.
+     *
+     * @param id An id (specified by a {@link Provides} annotation)
+     * @param params A list of parameter types that the constructor should accept
+     * @return An functional interface for creating a new instance or {@code null} if no constructor matching
+     * {@code params} exists
+     */
+    public InvokeWrapper creator(String id, Class<?>... params) {
+        Class<?> provider = providedBy.get(id);
         if (provider == null) return null;
-
-        Class<?>[] paramClasses = Stream.of(params).map(Object::getClass).toArray(Class[]::new);
-
-        // TODO: Determine if we want prettier error messages for this
         try {
-            return provider.getConstructor(paramClasses).newInstance(params);
-        } catch (IllegalAccessException | InstantiationException | InvocationTargetException e) {
-            e.printStackTrace();
+            Constructor<?> constructor = provider.getConstructor(params);
+            return o -> {
+                try {
+                    return constructor.newInstance(o);
+                } catch (InstantiationException | IllegalAccessException | InvocationTargetException e) {
+                    throw new IllegalArgumentException(e);
+                }
+            };
+        } catch (NoSuchMethodException e) {
             return null;
         }
     }

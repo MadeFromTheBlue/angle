@@ -1,4 +1,5 @@
 import _resolvertest.*;
+import _resolvertest.subpack.NestedTest;
 import blue.made.angleshared.resolver.Resolver;
 import org.junit.*;
 
@@ -12,46 +13,42 @@ public class ResolverTests {
 
     @Before
     public void init() {
-        res.addPackage("_resolvertest");
+        res.addPackage("_resolvertest", c -> !c.isAnnotationPresent(Deprecated.class));
     }
 
     @Test
-    public void testNone() throws NoSuchMethodException {
-        assertNull(res.create("none"));
+    public void testPackageFilter() {
+        assertNull(res.creator("depr"));
+    }
+
+
+    @Test
+    public void testNone() {
+        assertNull(res.creator("none"));
     }
 
     @Test
-    public void testOne() throws NoSuchMethodException {
-        assertTrue(res.create("foo") instanceof ProvidesOne);
+    public void testNested() {
+        assertTrue(res.creator("nested").invoke() instanceof NestedTest);
     }
 
     @Test
-    public void testTwo() throws NoSuchMethodException {
-        assertTrue(res.create("bar1") instanceof ProvidesTwo);
-        assertTrue(res.create("bar2") instanceof ProvidesTwo);
+    public void testOne() {
+        assertTrue(res.creator("foo").invoke() instanceof ProvidesOne);
     }
 
-    /*
     @Test
-    public void testParams() throws NoSuchMethodException {
-        assertEquals(((ProvidesOne) res.create("foo")).i, -1);
-        assertEquals(((ProvidesOne) res.create("foo", 10)).i, 10);
+    public void testTwo() {
+        assertTrue(res.creator("bar1").invoke() instanceof ProvidesTwo);
+        assertTrue(res.creator("bar2").invoke() instanceof ProvidesTwo);
     }
-    */
-
     @Test
-    public void testParamsDelayed() throws NoSuchMethodException {
+    public void testParams() {
         assertEquals(((ProvidesOne) res.creator("foo").invoke()).i, -1);
         assertEquals(((ProvidesOne) res.creator("foo", int.class).invoke(10)).i, 10);
     }
-
-    @Test(expected = NoSuchMethodException.class)
+    @Test
     public void testBadParams() throws NoSuchMethodException {
-        res.create("foo", Object.class, int.class);
-    }
-
-    @Test(expected = NoSuchMethodException.class)
-    public void testBadParamsDelayed() throws NoSuchMethodException {
-        res.creator("foo", Object.class, int.class).invoke(new Object(), 10);
+        assertNull(res.creator("foo", Object.class));
     }
 }
