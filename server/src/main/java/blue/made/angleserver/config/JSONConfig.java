@@ -17,19 +17,18 @@ public class JSONConfig {
     private static Gson gson = new Gson();
 
     public static void loadWorld(World world, JsonElement json) {
-        JsonObject jsonObject = json.getAsJsonObject().get("board").getAsJsonObject();
+        JsonObject boardJson = json.getAsJsonObject().get("board").getAsJsonObject();
 
         // Deserialize the primitives
-        int width = jsonObject.get("width").getAsInt();
-        int height = jsonObject.get("height").getAsInt();
+        int width = boardJson.get("width").getAsInt();
+        int height = boardJson.get("height").getAsInt();
 
         world.buildInitial(width, height);
 
         // Deserialize the squareTypes
-        Type stringArrayType = new TypeToken<String[]>() {
-        }.getType();
+        Type stringArrayType = new TypeToken<String[]>() {}.getType();
 
-        String[] squareTypes = gson.fromJson(jsonObject.get("squareTypes").getAsJsonArray(), stringArrayType);
+        String[] squareTypes = gson.fromJson(boardJson.get("squareTypes").getAsJsonArray(), stringArrayType);
 
         for (int i = 0; i < width; i++) {
             for (int j = 0; j < height; j++) {

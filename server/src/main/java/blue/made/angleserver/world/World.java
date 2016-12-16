@@ -56,10 +56,12 @@ public class World {
         this.ywidth = roundUp(height, CHUNK_WIDTH);
         xchunks = ((xwidth - 1) >> CHUNK_WIDTH_BITS) + 1;
         ychunks = ((ywidth - 1) >> CHUNK_WIDTH_BITS) + 1;
+
         int len = xwidth * ywidth;
         heights = new float[len];
         tileTags = new short[len][0];
         chunks = new Chunk[xchunks * ychunks];
+
         for (int i = 0; i < chunks.length; i++) chunks[i] = new Chunk();
         Tags.register(tagRegistry);
     }
