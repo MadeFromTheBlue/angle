@@ -1,16 +1,10 @@
 package blue.made.angleclient.ui;
 
 import blue.made.angleclient.Game;
-import blue.made.angleclient.action.ActionRegistry;
 import blue.made.angleclient.entity.Entity;
-import blue.made.angleclient.entity.EntityRegistry;
-import blue.made.angleclient.entity.EntitySpec;
-import blue.made.angleclient.entity.structure.Structure;
-import blue.made.angleclient.entity.structure.StructureSpec;
 import blue.made.angleclient.world.Chunk;
 import blue.made.angleclient.world.Tags;
 import blue.made.angleclient.world.World;
-import blue.made.bcf.BCFWriter;
 
 import javax.swing.*;
 import java.awt.*;
@@ -59,11 +53,9 @@ public class UI {
             public void actionPerformed(ActionEvent e) {
                 ArrayList<String> list = new ArrayList<>();
                 list.add("[NONE]");
-                for (EntitySpec a : EntityRegistry.specs.values()) {
-                    if (a instanceof StructureSpec) list.add(a.id);
-                }
                 String in = (String) JOptionPane.showInputDialog(frame, "What type?", "Select", JOptionPane.QUESTION_MESSAGE, null, list.toArray(), null);
-                final StructureSpec toplace = (StructureSpec) EntityRegistry.specs.get(in);
+                // TODO: Make this all work
+                /*final StructureSpec toplace = (StructureSpec) EntityRegistry.specs.get(in);
                 if (toplace != null) {
                     push(new UIState(UI.this) {
                         @Override
@@ -99,7 +91,7 @@ public class UI {
                             gu.notifyRedraw();
                         }
                     });
-                }
+                }*/
             }
         });
 
@@ -140,15 +132,17 @@ public class UI {
 					}
 				}*/
 
+                /* TODO: Make this work
                 for (Structure s : Game.INSTANCE.world.structures.valueCollection()) {
                     if (s.bounds.in((int) gu.getMouseX(), (int) gu.getMouseY())) {
                         seled = s;
                         flag = true;
                         break;
                     }
-                }
+                }*/
                 if (flag) {
                     actButts.removeAll();
+                    /*
                     for (String act : seled.spec.actions) {
                         JButton butt = new JButton();
                         butt.setAction(new AbstractAction() {
@@ -159,7 +153,7 @@ public class UI {
                         });
                         butt.setText(act);
                         actButts.add(butt);
-                    }
+                    }*/
                     gu.notifyRedraw();
                 } else {
                     actButts.removeAll();
@@ -240,12 +234,14 @@ public class UI {
             });
             gu.addPainter(draw -> {
                 int ds = (int) gu.drawScale;
+                /* TODO: Make this work
                 for (Structure struct : world.structures.valueCollection()) {
                     draw.setColor(struct.color);
                     struct.bounds.forEach(l -> {
                         draw.fillRect(l.x * ds, l.y * ds, ds, ds);
                     });
                 }
+                */
             });
             /*gu.addPainter(draw -> {
                 int ds = (int) gu.drawScale;
@@ -259,11 +255,13 @@ public class UI {
                 int ds = (int) gu.drawScale;
                 if (seled != null) {
                     draw.setColor(Color.ORANGE);
+                    /* TODO: Make this work
                     if (seled instanceof Structure) {
                         ((Structure) seled).bounds.forEach(l -> {
                             draw.drawRect(l.x * ds, l.y * ds, ds, ds);
                         });
                     }
+                    */
                     /*
                     if (seled instanceof Unit) {
                         Unit u = (Unit) seled;

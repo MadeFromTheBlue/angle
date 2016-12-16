@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="ResolverTests" tests="3" skipped="0" failures="0" errors="0" timestamp="2016-12-15T04:40:50" hostname="/0:0:0:0:0:0:0:1%lo" time="0.061">
+  <properties/>
+  <testcase name="testOne" classname="ResolverTests" time="0.04"/>
+  <testcase name="testTwo" classname="ResolverTests" time="0.013"/>
+  <testcase name="testNone" classname="ResolverTests" time="0.008"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

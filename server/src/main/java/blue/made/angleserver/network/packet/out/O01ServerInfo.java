@@ -1,6 +1,7 @@
 package blue.made.angleserver.network.packet.out;
 
 import blue.made.angleserver.Game;
+import blue.made.angleshared.AngleInfo;
 import blue.made.bcf.BCF;
 import blue.made.bcf.BCFWriter;
 
@@ -25,7 +26,7 @@ public class O01ServerInfo extends OPacketBCF {
         map.writeName("desc");
         map.write(desc);
         /*
-		map.writeName("ico_w");
+        map.writeName("ico_w");
 		map.write(0);
 		map.writeName("ico_h");
 		map.write(0);
@@ -33,7 +34,7 @@ public class O01ServerInfo extends OPacketBCF {
 		map.write(Unpooled.buffer());
 		*/
         map.writeName("version");
-        map.write(BCF.store(Game.VERSION_MAJOR, Game.VERSION_MINOR, Game.VERSION_PATCH));
+        map.write(BCF.store(AngleInfo.VERSION_MAJOR, AngleInfo.VERSION_MINOR, AngleInfo.VERSION_PATCH));
         map.end();
     }
 }

@@ -2,11 +2,8 @@ package blue.made.angleserver.network;
 
 import blue.made.angleserver.Game;
 import blue.made.angleserver.Player;
-import blue.made.angleserver.entity.EntityRegistry;
-import blue.made.angleserver.entity.EntitySpec;
 import blue.made.angleserver.network.packet.in.I01PreConnect;
 import blue.made.angleserver.network.packet.out.O01ServerInfo;
-import blue.made.angleserver.network.packet.out.O10EntitySpec;
 import blue.made.angleserver.network.packet.out.O20TerrainMeta;
 import blue.made.angleserver.network.packet.out.OPacket;
 import io.netty.channel.Channel;
@@ -35,9 +32,6 @@ public class Client {
         Game.INSTANCE.active.add(this);
         send(new O20TerrainMeta(Game.INSTANCE.world, false));
 
-        for (EntitySpec spec : EntityRegistry.registry.values()) {
-            send(new O10EntitySpec(spec));
-        }
     }
 
     public void onJoin() {
