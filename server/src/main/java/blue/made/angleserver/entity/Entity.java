@@ -24,6 +24,9 @@ public abstract class Entity {
      */
     protected abstract void onSpawn();
 
+    /**
+     * Called by {@link #spawn()}
+     */
     protected abstract boolean checkSpawn();
 
     public final boolean spawn() {

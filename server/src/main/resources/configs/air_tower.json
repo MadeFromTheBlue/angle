@@ -1,0 +1,6 @@
+{
+    "name": "Air Tower",
+    "provided_by": "directional_tower",
+    "dtheta": 0.02777777777777777,
+    "damage": 10
+}

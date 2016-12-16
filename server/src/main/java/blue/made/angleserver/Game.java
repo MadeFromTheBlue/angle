@@ -9,6 +9,7 @@ import blue.made.angleshared.resolver.Resolver;
 import blue.made.angleshared.util.Util;
 
 import java.io.FileNotFoundException;
+import java.time.Instant;
 import java.util.ArrayList;
 
 /**
@@ -22,6 +23,8 @@ public class Game {
     public static Game INSTANCE = new Game();
     public static Resolver resolver = new Resolver();
 
+    private boolean gameOver;
+    private Instant now;
     private State state = State.RUNNING;
     public World world;
     public TagRegistry tags = new TagRegistry();
@@ -46,6 +49,14 @@ public class Game {
     }
 
     public void run() {
+        while (!gameOver) {
+            // TODO: Do stuff
 
+            this.now = Instant.now();
+        }
+    }
+
+    public Instant getNow() {
+        return now;
     }
 }
