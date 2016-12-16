@@ -1,8 +1,9 @@
-import _resolvertest.*;
+import _resolvertest.ProvidesOne;
+import _resolvertest.ProvidesTwo;
 import _resolvertest.subpack.NestedTest;
-import blue.made.angleshared.resolver.InvocationException;
 import blue.made.angleshared.resolver.Resolver;
-import org.junit.*;
+import org.junit.Before;
+import org.junit.Test;
 
 import static org.junit.Assert.*;
 
@@ -14,7 +15,10 @@ public class ResolverTests extends TestBase {
 
     @Before
     public void init() {
-        res.addPackage("_resolvertest", c -> !c.isAnnotationPresent(Deprecated.class));
+        res.addPackage("_resolvertest", c -> {
+            return !c.getPackage().getName().equals("_resolvertest.duped") &&
+                    !c.isAnnotationPresent(Deprecated.class);
+        });
     }
 
     @Test
@@ -43,6 +47,13 @@ public class ResolverTests extends TestBase {
         assertTrue(res.creator("bar1").invoke() instanceof ProvidesTwo);
         assertTrue(res.creator("bar2").invoke() instanceof ProvidesTwo);
     }
+
+    // Ensures that it blows up when you have two classes trying to provide the same functionality
+    @Test(expected=IllegalArgumentException.class)
+    public void testNoDuplicate() {
+        res.addPackage("_resolvertest.duped");
+    }
+
     @Test
     public void testParams() {
         assertEquals(((ProvidesOne) res.creator("foo").invoke()).i, -1);

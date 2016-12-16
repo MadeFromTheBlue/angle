@@ -4,7 +4,8 @@ import com.google.common.reflect.ClassPath;
 
 import java.io.IOException;
 import java.lang.annotation.Annotation;
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.function.Predicate;
 import java.util.stream.Stream;
 
@@ -23,6 +24,18 @@ public class Resolver {
         }
     }
 
+    private void addProvider(Provides provides, Class clas) {
+        String name = provides.value();
+
+        // Ensure that multiple classes don't try and provide the same functionality
+        if (providedBy.containsKey(name)) {
+            throw new IllegalArgumentException("Multiple classes cannot provide the same " +
+                    "functionality.");
+        }
+
+        providedBy.put(name, clas);
+    }
+
     /**
      * Adds a class that can be instantiated by {@link #creator(String, Class[])}.
      * This function will register the class to the ids listed by one or more {@link Provides}
@@ -35,12 +48,12 @@ public class Resolver {
                 // Find all types that this class provides and puts them into the providedBy map
                 ProvidesMany provides = (ProvidesMany) a;
                 Stream.of(provides.value())
-                        .map(Provides::value)
-                        .forEach(s -> providedBy.put(s, c));
+                        .forEach(s -> addProvider(s, c));
                 break;
             } else if (a instanceof Provides) {
                 // This is the case when there is only one annotation, in which case we need to
-                providedBy.put(((Provides) a).value(), c);
+                // merely add one provider
+                addProvider((Provides) a, c);
                 break;
             }
         }
@@ -58,7 +71,7 @@ public class Resolver {
      * registering them with {@link #add(Class)} if they pass the {@code filter}.
      *
      * @param packageName The name of the package to search (i.e. {@code blue.made.angleserver.entity})
-     * @param only A filter
+     * @param only        A filter
      */
     public void addPackage(String packageName, Predicate<Class<?>> only) {
         cp.getTopLevelClassesRecursive(packageName)
@@ -72,7 +85,7 @@ public class Resolver {
      * Provides a functional interface that can be invoked to produce a new instance of the class registered to
      * {@code id}. The interface wraps a constructor that takes arguments of type {@code params} as input.
      *
-     * @param id An id (specified by a {@link Provides} annotation)
+     * @param id     An id (specified by a {@link Provides} annotation)
      * @param params A list of parameter types that the constructor should accept
      * @return An functional interface for creating a new instance or {@code null} if no constructor matching
      * {@code params} exists
