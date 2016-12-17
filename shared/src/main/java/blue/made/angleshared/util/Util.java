@@ -11,6 +11,13 @@ import java.io.*;
 public class Util {
     public static final float FLOAT_TOLERANCE = 0.00001f;
 
+    /**
+     * Creates a new file stream of a given file name.
+     *
+     * @param path the path to the file
+     * @return an InputStream of the file
+     * @throws FileNotFoundException if the file does not exist
+     */
     public static InputStream newFileStream(String path) throws FileNotFoundException {
         ClassLoader cl = Util.class.getClassLoader();
         InputStream stream = cl.getResourceAsStream(path);
@@ -27,11 +34,24 @@ public class Util {
         return stream;
     }
 
-    public static JsonElement newJsonElement(String file) throws FileNotFoundException {
+    /**
+     * Gets a JsonElement representing the root JSON object in the file.
+     *
+     * @param file the file name to read from
+     * @return a JsonElement representing the root JSON object in the file
+     * @throws FileNotFoundException if the file does not exist
+     */
+    public static JsonElement getJsonFromFile(String file) throws FileNotFoundException {
         InputStream s = newFileStream(file);
         return new JsonParser().parse(new InputStreamReader(s));
     }
 
+    /**
+     * Normalizes an angle to between [-pi, pi] radians.
+     *
+     * @param theta the angle to bound in radians
+     * @return the bounded angle in radians
+     */
     public static float boundAngle(float theta) {
         theta /= Math.PI;
         theta = (theta + 1) / 2;
@@ -40,17 +60,23 @@ public class Util {
         return theta * (float) Math.PI;
     }
 
+    /**
+     * Determines if {@code theta1} is within {@code tolerance} of {@code theta2}.
+     *
+     * @param theta1    the first angle
+     * @param theta2    the second angle
+     * @param tolerance the maximum difference between {@code theta1} and {@code theta2}
+     * @return true if the difference is less than or equal to the tolerance, otherwise false
+     */
     public static boolean angleInRange(float theta1, float theta2, float tolerance) {
         theta1 = boundAngle(theta1);
         theta2 = boundAngle(theta2);
         float dtheta = Math.abs(theta1 - theta2);
 
         if (dtheta > Math.PI) {
-            if (2 * Math.PI - dtheta <= tolerance)
-                return true;
+            if (2 * Math.PI - dtheta <= tolerance) return true;
         } else {
-            if (dtheta <= tolerance)
-                return true;
+            if (dtheta <= tolerance) return true;
         }
 
         return false;
@@ -59,6 +85,7 @@ public class Util {
     // TODO: FIX THIS CRAP
     private static long bs = 39274917;
 
+    @Deprecated // TODO: Once this is fixed, un-deprecate
     public static long generateUUID() {
         return System.currentTimeMillis() ^ bs++; // TODO: FIX THIS
     }

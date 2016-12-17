@@ -6,13 +6,20 @@ package blue.made.angleshared.util;
 public class Point implements Cloneable {
     public final float x, y;
 
+    /**
+     * Represents a point on the board. Not to be confused with Location, Point stores exact
+     * floating-point coordinates rather than the integer locations which Location uses.
+     *
+     * @param x the x coordinate
+     * @param y the y coordinate
+     */
     public Point(float x, float y) {
         this.x = x;
         this.y = y;
     }
 
     /**
-     * Gets a Location object that corresponds to this point
+     * Gets a Location object that corresponds to this point.
      *
      * @return the Location corresponding to the point
      */
