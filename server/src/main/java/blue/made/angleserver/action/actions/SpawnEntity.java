@@ -19,7 +19,7 @@ public class SpawnEntity extends Action {
         if (id == null) return;
 
         // TODO: Make this actually work
-        InvokeWrapper creator = Game.resolver.creator(id);
+        InvokeWrapper creator = Game.resolver.creator(id, long.class);
         creator.invoke(Util.generateUUID());
 
         // TODO: Spawn an actual entity (pull from config)

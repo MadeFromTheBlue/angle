@@ -10,7 +10,7 @@ import static org.junit.Assert.*;
 /**
  * Created by Sumner Evans on 2016/12/14.
  */
-public class ResolverTests extends TestBase {
+public class ResolverTests {
     Resolver res = new Resolver();
 
     @Before
