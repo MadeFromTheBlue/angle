@@ -29,6 +29,8 @@ public abstract class Entity {
      */
     protected abstract boolean checkSpawn();
 
+    public abstract void tick(World world);
+
     public final boolean spawn() {
         if (!checkSpawn()) return false;
         onSpawn();
@@ -43,8 +45,6 @@ public abstract class Entity {
         map.writeName("id");
         map.write(uuid);
     }
-
-    public abstract void tick(World world);
 
     public boolean isSpawned() {
         return spawned;

@@ -29,12 +29,9 @@ public class DirectionalTower extends Tower {
      * Takes a UUID instead of generating a new one so that games towers can be saved and reloaded in the future.
      *
      * @param uuid
-     * @param owner
-     * @param location
-     * @param price
      */
-    public DirectionalTower(long uuid, Player owner, Location location, int price) {
-        super(uuid, owner, location, price);
+    public DirectionalTower(long uuid) {
+        super(uuid);
     }
 
     @Override
