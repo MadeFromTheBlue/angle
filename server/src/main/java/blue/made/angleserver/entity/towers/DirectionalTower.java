@@ -1,10 +1,11 @@
 package blue.made.angleserver.entity.towers;
 
 import blue.made.angleserver.Game;
-import blue.made.angleserver.Player;
+import blue.made.angleserver.entity.minions.Minion;
 import blue.made.angleserver.world.World;
 import blue.made.angleshared.resolver.Provides;
-import blue.made.angleshared.util.Location;
+import blue.made.angleshared.util.Point;
+import blue.made.angleshared.util.Util;
 
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
@@ -17,13 +18,14 @@ import java.time.temporal.ChronoUnit;
 @Provides("directional_tower")
 public class DirectionalTower extends Tower {
     // Configured
-    protected float angle;
-    protected float dtheata;
-    protected float fireRate;
-    protected int damage;
+    private float angle;
+    private float dtheata;
+    private float fireRate;
+    private int damage;
+    private int range;
 
-    protected int isFiring = 0;
-    protected Instant lastFireTime;
+    private int isFiring = 0;
+    Instant lastFireTime;
 
     /**
      * Takes a UUID instead of generating a new one so that games towers can be saved and reloaded in the future.
@@ -51,22 +53,23 @@ public class DirectionalTower extends Tower {
 
         boolean hit = false;
 
-        /* TODO: Make this work
-        for (Minion m : game.minions) {
-            boolean angleInAngleRange = Util.angleInRange(this.angle, Location.angle(this
-                    .getLocation(), m.getLocation()), (float) Math.PI / 7.5f);
-            boolean angleInRange = Location.dist(this.getLocation(), m.getLocation()) < this.range;
+        // TODO: Make this work
+        for (Minion m : this.getMinions()) {
+            Point towerPt = this.getPoint();
+            Point minionPoint = m.getPoint();
+
+            boolean angleInAngleRange = Util.angleInRange(this.angle, Point.angle(towerPt, minionPoint), dtheata);
+            boolean angleInRange = Point.dist(towerPt, minionPoint) < this.range;
 
             if (angleInAngleRange && angleInRange) {
-                boolean hitthis = m.attacked(this, this.damage);
-                hit |= hitthis;
-                if (hitthis) {
+                boolean minionHit = m.attacked(this, this.damage);
+                hit |= minionHit;
+                if (minionHit) {
                     this.isFiring = 5;
-                    if (!isAreaOfEffect()) break;
+                    //if (!isAreaOfEffect()) break;
                 }
             }
         }
-        */
 
         this.lastFireTime = now;
     }

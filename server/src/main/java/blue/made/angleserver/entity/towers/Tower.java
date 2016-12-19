@@ -1,7 +1,14 @@
 package blue.made.angleserver.entity.towers;
 
+import blue.made.angleserver.Game;
 import blue.made.angleserver.Player;
 import blue.made.angleserver.entity.Entity;
+import blue.made.angleserver.entity.minions.Minion;
+import blue.made.angleshared.util.Location;
+import blue.made.angleshared.util.Point;
+import gnu.trove.iterator.TLongObjectIterator;
+
+import java.util.HashSet;
 
 /**
  * Created by Sumner Evans on 2016/12/15.
@@ -35,5 +42,24 @@ public abstract class Tower extends Entity {
 
         // TODO: Check that it can be placed
         return false;
+    }
+
+    protected HashSet<Minion> getMinions() {
+        HashSet<Minion> minions = new HashSet<>();
+        for (TLongObjectIterator it = Game.INSTANCE.world.entities.iterator(); it.hasNext(); ) {
+            it.advance();
+            if (it.value() instanceof Minion) minions.add((Minion) it.value());
+        }
+
+        return minions;
+    }
+
+    protected Location getLocation() {
+        return new Location(x, y);
+    }
+
+    protected Point getPoint() {
+        // TODO: Make this the center
+        return new Point(x, y);
     }
 }

@@ -14,7 +14,7 @@ public class World {
     public static final int CHUNK_WIDTH_BITS = 4;
     public static final int CHUNK_WIDTH = 1 << CHUNK_WIDTH_BITS;
 
-    public TLongObjectHashMap<Entity> entities = new TLongObjectHashMap<Entity>();
+    public TLongObjectHashMap<Entity> entities = new TLongObjectHashMap<>();
 
     public int xwidth = -1;
     public int ywidth = -1;
