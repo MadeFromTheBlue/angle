@@ -6,8 +6,10 @@ import blue.made.angleserver.entity.Entity;
 import blue.made.angleserver.entity.minions.Minion;
 import blue.made.angleshared.util.Location;
 import blue.made.angleshared.util.Point;
+import com.google.gson.JsonObject;
 import gnu.trove.iterator.TLongObjectIterator;
 
+import java.security.InvalidParameterException;
 import java.util.HashSet;
 
 /**
@@ -28,8 +30,14 @@ public abstract class Tower extends Entity {
      *
      * @param uuid
      */
-    public Tower(long uuid) {
+    public Tower(long uuid, JsonObject configJson) {
         super(uuid);
+
+        if (configJson == null)
+            throw new InvalidParameterException("Cannot have null configuration");
+
+        this.price = configJson.get("price").getAsInt();
+        // TODO: how to set owner
     }
 
     @Override

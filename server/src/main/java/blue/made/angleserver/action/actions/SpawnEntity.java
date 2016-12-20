@@ -6,6 +6,13 @@ import blue.made.angleserver.action.Action;
 import blue.made.angleshared.resolver.InvokeWrapper;
 import blue.made.angleshared.util.Util;
 import blue.made.bcf.BCFMap;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 
 /**
  * Created by sumner on 12/8/16.
@@ -18,10 +25,27 @@ public class SpawnEntity extends Action {
         // TODO: better error handling
         if (id == null) return;
 
-        // TODO: Make this actually work
-        InvokeWrapper creator = Game.resolver.creator(id, long.class);
-        creator.invoke(Util.generateUUID());
+        // Spawn the actual entity with the configuration JSON
+        InvokeWrapper creator = Game.resolver.creator(id, long.class, JsonObject.class);
+        creator.invoke(Util.generateUUID(), findConfigJson(id));
+    }
 
-        // TODO: Spawn an actual entity (pull from config)
+    private JsonObject findConfigJson(String id) {
+        // Find the Configuration JSON
+        InputStream inputStream;
+        try {
+            inputStream = Util.newFileStream(String.format("configs/%s.json", id));
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+
+            // There is no config for this object, just return null
+            return null;
+        }
+
+        // Read and parse the JSON
+        InputStreamReader streamReader = new InputStreamReader(inputStream);
+        BufferedReader reader = new BufferedReader(streamReader);
+
+        return new JsonParser().parse(reader).getAsJsonObject();
     }
 }

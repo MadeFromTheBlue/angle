@@ -1,15 +1,20 @@
 package blue.made.angleshared.util;
 
+import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import com.google.gson.reflect.TypeToken;
 
 import java.io.*;
+import java.lang.reflect.Type;
 
 /**
  * Created by sumner on 11/30/16.
  */
 public class Util {
     public static final float FLOAT_TOLERANCE = 0.00001f;
+    public static final float floatPI = (float) Math.PI;
 
     public static InputStream newFileStream(String path) throws FileNotFoundException {
         ClassLoader cl = Util.class.getClassLoader();
@@ -54,6 +59,17 @@ public class Util {
         }
 
         return false;
+    }
+
+    public static <T> T valueFromJsonOrDefault(JsonObject jsonObject, String el, T defaultValue) {
+        if (jsonObject == null) return null;
+        JsonElement element = jsonObject.get(el);
+
+        if (element == null || element.isJsonNull()) return defaultValue;
+
+        GsonBuilder gson = new GsonBuilder();
+        Type type = new TypeToken<T>() {}.getType();
+        return gson.create().fromJson(element, type);
     }
 
     // TODO: FIX THIS CRAP

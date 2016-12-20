@@ -2,6 +2,7 @@ package blue.made.angleserver.entity;
 
 import blue.made.angleserver.world.World;
 import blue.made.bcf.BCFWriter;
+import com.google.gson.JsonObject;
 
 import java.io.IOException;
 
