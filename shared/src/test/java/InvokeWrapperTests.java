@@ -14,7 +14,7 @@ import static org.junit.Assert.assertTrue;
 /**
  * Created by Sam Sartor on 12/15/2016.
  */
-public class InvokeWrapperTests extends TestBase {
+public class InvokeWrapperTests {
     public static class TestMethods {
         public TestMethods() {
         }
