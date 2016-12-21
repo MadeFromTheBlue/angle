@@ -8,7 +8,10 @@ import blue.made.bcf.BCFMap;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.Arrays;
+
 import static junit.framework.TestCase.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 /**
  * Created by Sumner Evans on 2016/12/20.
@@ -42,5 +45,6 @@ public class SpawnEntityTests {
         assertEquals(30, tower.price);
         assertEquals(2f, tower.fireRate);
         assertEquals(5, tower.range);
+        assertTrue(Arrays.deepEquals(new String[]{"air_tower_2"}, tower.upgradesTo));
     }
 }

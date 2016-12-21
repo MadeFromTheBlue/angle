@@ -6,6 +6,8 @@ import blue.made.angleserver.entity.Entity;
 import blue.made.angleserver.entity.minions.Minion;
 import blue.made.angleshared.util.Location;
 import blue.made.angleshared.util.Point;
+import blue.made.bcf.BCFItem;
+import blue.made.bcf.BCFList;
 import blue.made.bcf.BCFMap;
 import gnu.trove.iterator.TLongObjectIterator;
 
@@ -22,8 +24,10 @@ import java.util.HashSet;
 public abstract class Tower extends Entity {
     public final int x;
     public final int y;
-    protected Player owner;
     public final int price;
+    public final String[] upgradesTo;
+
+    protected Player owner;
 
     /**
      * Takes a UUID instead of generating a new one so that games towers can be saved and reloaded
@@ -43,6 +47,19 @@ public abstract class Tower extends Entity {
         this.x = config.get("x").asNumeric().intValue();
         this.y = config.get("y").asNumeric().intValue();
         this.owner = player;
+
+        BCFItem upgradesToConfig = config.get("upgrades_to");
+        if (upgradesToConfig == null) {
+            upgradesTo = new String[0];
+        } else {
+            BCFList arr = upgradesToConfig.asList();
+            upgradesTo = new String[arr.size()];
+
+            for (int i = 0; i < arr.size(); i++) {
+                BCFItem item = arr.get(i);
+                upgradesTo[i] = item.asString();
+            }
+        }
     }
 
     @Override

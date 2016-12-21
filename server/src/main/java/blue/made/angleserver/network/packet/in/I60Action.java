@@ -1,7 +1,6 @@
 package blue.made.angleserver.network.packet.in;
 
 import blue.made.angleserver.Game;
-import blue.made.angleserver.Player;
 import blue.made.angleserver.action.Action;
 import blue.made.angleserver.network.Client;
 import blue.made.angleshared.resolver.InvokeWrapper;
