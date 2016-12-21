@@ -10,9 +10,12 @@ import blue.made.angleshared.util.Util;
 import blue.made.bcf.BCF;
 import blue.made.bcf.BCFItem;
 import blue.made.bcf.BCFMap;
+import com.google.common.base.Strings;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
+
+import java.security.InvalidParameterException;
 
 /**
  * Created by sumner on 12/8/16.
@@ -40,10 +43,13 @@ public class SpawnEntity extends Action {
 
     @Override
     public void run(Player player, BCFMap data) {
-        String id = data.get("type").asString();
+        BCFItem type = data.get("type");
+        if (type == null)
+            throw new InvalidParameterException("SpawnEntity requires a type string to be specified");
 
-        // TODO: better error handling
-        if (id == null) return;
+        String id = type.asString();
+        if (Strings.isNullOrEmpty(id))
+            throw new InvalidParameterException("SpawnEntity requires a type string to be specified");
 
         // Splice the data onto the config
         BCFMap config = configCache.getUnchecked(id);
