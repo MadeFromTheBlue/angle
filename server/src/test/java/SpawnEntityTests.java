@@ -21,17 +21,18 @@ public class SpawnEntityTests {
     }
 
     @Test
-    public void testTowerSpawn() {
-        BCFMap config = new BCFMap();
-        config.put("type", "towers.air");
-        config.put("x", 5);
-        config.put("y", 1);
+    public void testAirTowerSpawn() {
+        // Set up some fake data like what will be sent from the client
+        BCFMap data = new BCFMap();
+        data.put("type", "towers.air");
+        data.put("x", 5);
+        data.put("y", 1);
 
         Player player = new Player();
 
         Action spawnAction = new SpawnEntity();
-        spawnAction.run(player, config);
-        long entityUuid = Game.INSTANCE.world.entities.keys()[0];
+        spawnAction.run(player, data);
+        long entityUuid = Game.INSTANCE.world.entities.keys()[0]; // There's only one entity
         DirectionalTower tower = (DirectionalTower) Game.INSTANCE.world.entities.get(entityUuid);
 
         assertEquals(0.02777777777777777, tower.dtheta, Util.FLOAT_TOLERANCE);
