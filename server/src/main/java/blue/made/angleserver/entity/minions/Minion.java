@@ -1,9 +1,10 @@
 package blue.made.angleserver.entity.minions;
 
+import blue.made.angleserver.Player;
 import blue.made.angleserver.entity.Entity;
 import blue.made.angleserver.entity.towers.Tower;
 import blue.made.angleshared.util.Point;
-import com.google.gson.JsonObject;
+import blue.made.bcf.BCFMap;
 
 import java.security.InvalidParameterException;
 
@@ -11,8 +12,9 @@ import java.security.InvalidParameterException;
  * Created by Sumner Evans on 2016/12/16.
  */
 public abstract class Minion extends Entity {
-    protected int goldReward;
-    protected Point point;
+    public final int goldReward;
+    public final Point point;
+
     protected int health;
     protected boolean dead = false;
 
@@ -20,17 +22,17 @@ public abstract class Minion extends Entity {
      * Takes a UUID instead of generating a new one so that games towers can be saved and reloaded in the future.
      *
      * @param uuid
-     * @param configJson
+     * @param config
      */
-    public Minion(long uuid, JsonObject configJson) {
-        super(uuid);
+    public Minion(long uuid, Player player, BCFMap config) {
+        super(uuid, player, config);
 
-        if (configJson == null)
+        if (config == null)
             throw new InvalidParameterException("Cannot have null configuration");
 
-        this.goldReward = configJson.get("gold_reward").getAsInt();
-        this.health = configJson.get("health").getAsInt();
-        // TODO: figure out how to set the point
+        goldReward = config.get("gold_reward").asNumeric().intValue();
+        health = config.get("health").asNumeric().intValue();
+        point = new Point(config.get("point").asMap());
     }
 
     abstract boolean canBeAttackedBy(Tower tower);

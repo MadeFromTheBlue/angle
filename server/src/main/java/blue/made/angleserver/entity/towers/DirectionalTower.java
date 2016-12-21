@@ -1,13 +1,15 @@
 package blue.made.angleserver.entity.towers;
 
 import blue.made.angleserver.Game;
+import blue.made.angleserver.Player;
 import blue.made.angleserver.entity.minions.Minion;
 import blue.made.angleserver.world.World;
 import blue.made.angleshared.exceptions.InvalidConfigurationException;
 import blue.made.angleshared.resolver.Provides;
 import blue.made.angleshared.util.Point;
 import blue.made.angleshared.util.Util;
-import com.google.gson.JsonObject;
+import blue.made.bcf.BCFItem;
+import blue.made.bcf.BCFMap;
 
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
@@ -21,13 +23,13 @@ import java.util.Random;
 @Provides("directional_tower")
 public class DirectionalTower extends Tower {
     // Configured
-    private float angle;
-    private float dtheata;
-    private float fireRate;
-    private int damage;
-    private int range;
-    private boolean isAreaOfEffect;
+    public final float fireRate;
+    public final float dtheta;
+    public final int damage;
+    public final int range;
+    public final boolean isAreaOfEffect;
 
+    private float angle;
     private int isFiring = 0;
     Instant lastFireTime;
 
@@ -35,28 +37,39 @@ public class DirectionalTower extends Tower {
      * Takes a UUID instead of generating a new one so that games towers can be saved and reloaded in the future.
      *
      * @param uuid
-     * @param configJson
+     * @param config
      */
-    public DirectionalTower(long uuid, JsonObject configJson) {
-        super(uuid, configJson);
+    public DirectionalTower(long uuid, Player player, BCFMap config) {
+        super(uuid, player, config);
 
         // Randomize the angle by default, otherwise, set the angle to the configured initial_angle
-        String angleConfig = Util.valueFromJsonOrDefault(configJson, "initial_angle", "random");
+        BCFItem initialAngleConfig = config.get("initial_angle");
+        String angleConfig;
+
+        if (initialAngleConfig == null) angleConfig = "random";
+        else angleConfig = initialAngleConfig.asString("random");
+
+        float initialAngle;
         if (angleConfig.equals("random")) {
-            this.setAngle((float) (new Random().nextFloat() * 2 * Math.PI - Math.PI));
+            initialAngle = (float) (new Random().nextFloat() * 2 * Math.PI - Math.PI);
         } else {
             try {
-                this.setAngle(Float.parseFloat(angleConfig));
+                initialAngle = Float.parseFloat(angleConfig);
             } catch (NumberFormatException ex) {
                 throw new InvalidConfigurationException("initial_angle must be a number");
             }
         }
 
-        dtheata = Util.valueFromJsonOrDefault(configJson, "detheta", 0f);
-        isAreaOfEffect = Util.valueFromJsonOrDefault(configJson, "is_area_of_effect", false);
-        fireRate = configJson.get("fire_rate").getAsInt();
-        damage = configJson.get("damage").getAsInt();
-        range = configJson.get("range").getAsInt();
+        this.setAngle(initialAngle);
+
+        // By default, set to not AOE
+        BCFItem isAOE = config.get("is_area_of_effect");
+        isAreaOfEffect = isAOE != null && isAOE.asBoolean();
+
+        dtheta = config.get("dtheta").asNumeric().floatValue();
+        fireRate = config.get("fire_rate").asNumeric().intValue();
+        damage = config.get("damage").asNumeric().intValue();
+        range = config.get("range").asNumeric().intValue();
     }
 
     @Override
@@ -81,7 +94,7 @@ public class DirectionalTower extends Tower {
             Point towerPt = this.getPoint();
             Point minionPoint = m.getPoint();
 
-            boolean angleInAngleRange = Util.angleInRange(this.angle, Point.angle(towerPt, minionPoint), dtheata);
+            boolean angleInAngleRange = Util.angleInRange(this.angle, Point.angle(towerPt, minionPoint), dtheta);
             boolean angleInRange = Point.dist(towerPt, minionPoint) < this.range;
 
             if (angleInAngleRange && angleInRange) {

@@ -1,13 +1,10 @@
 package blue.made.angleshared.util;
 
-import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import com.google.gson.reflect.TypeToken;
 
 import java.io.*;
-import java.lang.reflect.Type;
 
 /**
  * Created by sumner on 11/30/16.
@@ -61,15 +58,23 @@ public class Util {
         return false;
     }
 
-    public static <T> T valueFromJsonOrDefault(JsonObject jsonObject, String el, T defaultValue) {
-        if (jsonObject == null) return null;
-        JsonElement element = jsonObject.get(el);
+    public static JsonObject findConfigJson(String id) {
+        // Find the Configuration JSON
+        try {
+            String path = String.format("configs/%s.json", id.replace('.', '/'));
 
-        if (element == null || element.isJsonNull()) return defaultValue;
+            // Read and parse the JSON
+            InputStreamReader streamReader = new InputStreamReader(Util.newFileStream(path));
+            BufferedReader reader = new BufferedReader(streamReader);
 
-        GsonBuilder gson = new GsonBuilder();
-        Type type = new TypeToken<T>() {}.getType();
-        return gson.create().fromJson(element, type);
+            return new JsonParser().parse(reader).getAsJsonObject();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+
+            // There is no config for this object, just return null
+            return null;
+        }
+
     }
 
     // TODO: FIX THIS CRAP

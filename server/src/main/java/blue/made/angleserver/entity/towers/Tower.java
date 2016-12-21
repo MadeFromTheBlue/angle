@@ -6,7 +6,7 @@ import blue.made.angleserver.entity.Entity;
 import blue.made.angleserver.entity.minions.Minion;
 import blue.made.angleshared.util.Location;
 import blue.made.angleshared.util.Point;
-import com.google.gson.JsonObject;
+import blue.made.bcf.BCFMap;
 import gnu.trove.iterator.TLongObjectIterator;
 
 import java.security.InvalidParameterException;
@@ -20,24 +20,28 @@ import java.util.HashSet;
  * </p>
  */
 public abstract class Tower extends Entity {
-    protected int x;
-    protected int y;
+    public final int x;
+    public final int y;
     protected Player owner;
-    protected int price;
+    public final int price;
 
     /**
      * Takes a UUID instead of generating a new one so that games towers can be saved and reloaded in the future.
      *
      * @param uuid
+     * @param player
+     * @param config
      */
-    public Tower(long uuid, JsonObject configJson) {
-        super(uuid);
+    public Tower(long uuid, Player player, BCFMap config) {
+        super(uuid, player, config);
 
-        if (configJson == null)
+        if (config == null)
             throw new InvalidParameterException("Cannot have null configuration");
 
-        this.price = configJson.get("price").getAsInt();
-        // TODO: how to set owner
+        this.price = config.get("price").asNumeric().intValue();
+        this.x = config.get("x").asNumeric().intValue();
+        this.y = config.get("y").asNumeric().intValue();
+        this.owner = player;
     }
 
     @Override
@@ -49,7 +53,7 @@ public abstract class Tower extends Entity {
         if (!owner.hasFunds(price)) return false;
 
         // TODO: Check that it can be placed
-        return false;
+        return true;
     }
 
     protected HashSet<Minion> getMinions() {

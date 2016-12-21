@@ -40,5 +40,6 @@ public class UtilTests {
         assertEquals("custom", Util.valueFromJsonOrDefault(jsonObject, "exists", "default"));
         assertEquals(1, (int) Util.valueFromJsonOrDefault(jsonObject, "dne", 1));
         assertEquals(true, Util.valueFromJsonOrDefault(jsonObject, "dne", true));
+        assertNull(Util.valueFromJsonOrDefault(jsonObject, "dne", null));
     }
 }

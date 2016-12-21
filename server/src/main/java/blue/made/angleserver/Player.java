@@ -6,7 +6,7 @@ import java.security.InvalidParameterException;
  * Created by Sam Sartor on 4/25/16.
  */
 public class Player {
-    private int gold;
+    private int gold = 100;
     private String name;
 
     public void spendGold(int amount) {
@@ -26,6 +26,6 @@ public class Player {
     }
 
     public boolean hasFunds(int amount) {
-        return gold <= amount;
+        return gold >= amount;
     }
 }

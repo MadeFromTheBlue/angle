@@ -59,4 +59,9 @@ public class Game {
     public Instant getNow() {
         return now;
     }
+
+    // Testing only
+    public static void _reset() {
+        INSTANCE = new Game();
+    }
 }

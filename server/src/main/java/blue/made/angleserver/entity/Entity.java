@@ -1,8 +1,9 @@
 package blue.made.angleserver.entity;
 
+import blue.made.angleserver.Player;
 import blue.made.angleserver.world.World;
+import blue.made.bcf.BCFMap;
 import blue.made.bcf.BCFWriter;
-import com.google.gson.JsonObject;
 
 import java.io.IOException;
 
@@ -16,7 +17,7 @@ public abstract class Entity {
     /**
      * Takes a UUID instead of generating a new one so that games towers can be saved and reloaded in the future.
      */
-    public Entity(long uuid) {
+    public Entity(long uuid, Player player, BCFMap config) {
         this.uuid = uuid;
     }
 

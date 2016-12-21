@@ -1,5 +1,7 @@
 package blue.made.angleshared.util;
 
+import blue.made.bcf.BCFMap;
+
 /**
  * Created by Sumner Evans on 2016/12/09.
  */
@@ -17,6 +19,11 @@ public class Location {
     public Location(int x, int y) {
         this.x = x;
         this.y = y;
+    }
+
+    public Location(BCFMap pointData) {
+        this.x = pointData.get("x").asNumeric().intValue();
+        this.y = pointData.get("y").asNumeric().intValue();
     }
 
     /**
