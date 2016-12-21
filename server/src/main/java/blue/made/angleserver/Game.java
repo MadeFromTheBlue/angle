@@ -1,7 +1,8 @@
 package blue.made.angleserver;
 
-import blue.made.angleserver.action.Actions;
+import blue.made.angleserver.action.Action;
 import blue.made.angleserver.config.JSONConfig;
+import blue.made.angleserver.entity.Entity;
 import blue.made.angleserver.network.Client;
 import blue.made.angleserver.world.World;
 import blue.made.angleserver.world.tags.TagRegistry;
@@ -21,7 +22,8 @@ public class Game {
     }
 
     public static Game INSTANCE = new Game();
-    public static Resolver resolver = new Resolver();
+    public static Resolver entityResolver = new Resolver();
+    public static Resolver actionResolver = new Resolver();
 
     private boolean gameOver;
     private Instant now;
@@ -35,8 +37,8 @@ public class Game {
     public ArrayList<Client> active = new ArrayList<>();
 
     public void start() {
-        Actions.init();
-        resolver.addPackage("blue.made.angleserver.entity");
+        actionResolver.addPackage("blue.made.angleserver.action.actions", Action.class::isAssignableFrom);
+        entityResolver.addPackage("blue.made.angleserver.entity", Entity.class::isAssignableFrom);
 
         world = new World(tags);
 

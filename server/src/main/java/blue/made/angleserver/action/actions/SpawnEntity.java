@@ -6,6 +6,7 @@ import blue.made.angleserver.action.Action;
 import blue.made.angleserver.entity.Entity;
 import blue.made.angleshared.exceptions.InvalidConfigurationException;
 import blue.made.angleshared.resolver.InvokeWrapper;
+import blue.made.angleshared.resolver.Provides;
 import blue.made.angleshared.util.Util;
 import blue.made.bcf.BCF;
 import blue.made.bcf.BCFItem;
@@ -20,6 +21,7 @@ import java.security.InvalidParameterException;
 /**
  * Created by sumner on 12/8/16.
  */
+@Provides("spawn_entity")
 public class SpawnEntity extends Action {
     // Gosh Sumner, cache that stuff
     private static LoadingCache<String, InvokeWrapper> creatorCache = CacheBuilder
@@ -27,7 +29,7 @@ public class SpawnEntity extends Action {
             .build(new CacheLoader<String, InvokeWrapper>() {
                 @Override
                 public InvokeWrapper load(String key) throws Exception {
-                    return Game.resolver.creator(key, long.class, BCFMap.class);
+                    return Game.entityResolver.creator(key, long.class, BCFMap.class);
                 }
             });
 

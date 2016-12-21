@@ -15,7 +15,8 @@ public abstract class Entity {
     private boolean spawned = false;
 
     /**
-     * Takes a UUID instead of generating a new one so that games towers can be saved and reloaded in the future.
+     * Takes a UUID instead of generating a new one so that games towers can be saved and reloaded
+     * in the future.
      */
     public Entity(long uuid, Player player, BCFMap config) {
         this.uuid = uuid;

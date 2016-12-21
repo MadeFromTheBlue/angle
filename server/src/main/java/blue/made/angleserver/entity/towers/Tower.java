@@ -26,7 +26,8 @@ public abstract class Tower extends Entity {
     public final int price;
 
     /**
-     * Takes a UUID instead of generating a new one so that games towers can be saved and reloaded in the future.
+     * Takes a UUID instead of generating a new one so that games towers can be saved and reloaded
+     * in the future.
      *
      * @param uuid
      * @param player

@@ -2,6 +2,7 @@ package blue.made.angleclient.entity;
 
 import blue.made.angleclient.Game;
 import blue.made.bcf.BCFMap;
+import com.google.gson.JsonObject;
 
 /**
  * Created by Sam Sartor on 6/21/2016.
@@ -9,7 +10,7 @@ import blue.made.bcf.BCFMap;
 public abstract class Entity {
     public final long uuid;
 
-    public Entity(long uuid) {
+    public Entity(long uuid, JsonObject jsonObject) {
         this.uuid = uuid;
     }
 

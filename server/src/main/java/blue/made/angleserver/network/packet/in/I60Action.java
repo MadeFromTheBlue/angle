@@ -1,11 +1,16 @@
 package blue.made.angleserver.network.packet.in;
 
+import blue.made.angleserver.Game;
+import blue.made.angleserver.Player;
 import blue.made.angleserver.action.Action;
-import blue.made.angleserver.action.ActionRegistry;
 import blue.made.angleserver.network.Client;
+import blue.made.angleshared.resolver.InvokeWrapper;
 import blue.made.bcf.BCF;
 import blue.made.bcf.BCFMap;
 import blue.made.bcf.BCFReader;
+import com.google.common.cache.CacheBuilder;
+import com.google.common.cache.CacheLoader;
+import com.google.common.cache.LoadingCache;
 
 import java.io.IOException;
 
@@ -27,9 +32,20 @@ public class I60Action extends IPacket {
         this.map = map;
     }
 
+    private static LoadingCache<String, InvokeWrapper> creatorCache = CacheBuilder
+            .newBuilder()
+            .build(new CacheLoader<String, InvokeWrapper>() {
+                @Override
+                public InvokeWrapper load(String key) throws Exception {
+                    return Game.actionResolver.creator(key);
+                }
+            });
+
+
     @Override
     public void onProcessed() {
-        Action act = ActionRegistry.actions.get(map.get("action").asString());
+        InvokeWrapper creator = creatorCache.getUnchecked(map.get("action").asString());
+        Action act = (Action) creator.invoke();
         act.run(sender.player, map);
     }
 }
