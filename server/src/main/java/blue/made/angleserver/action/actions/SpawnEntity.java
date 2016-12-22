@@ -23,26 +23,6 @@ import java.security.InvalidParameterException;
  */
 @Provides("spawn_entity")
 public class SpawnEntity extends Action {
-    // Gosh Sumner, cache that stuff
-    private static LoadingCache<String, InvokeWrapper> creatorCache = CacheBuilder
-            .newBuilder()
-            .build(new CacheLoader<String, InvokeWrapper>() {
-                @Override
-                public InvokeWrapper load(String key) throws Exception {
-                    return Game.entityResolver.creator(key, long.class, BCFMap.class);
-                }
-            });
-
-    // And this stuff too, come on
-    private static LoadingCache<String, BCFMap> configCache = CacheBuilder
-            .newBuilder()
-            .build(new CacheLoader<String, BCFMap>() {
-                @Override
-                public BCFMap load(String id) throws Exception {
-                    return (BCFMap) BCF.fromJson(Util.findConfigJson(id));
-                }
-            });
-
     @Override
     public void run(Player player, BCFMap data) {
         BCFItem type = data.get("type");
@@ -53,19 +33,6 @@ public class SpawnEntity extends Action {
         if (Strings.isNullOrEmpty(id))
             throw new InvalidParameterException("SpawnEntity requires a type string to be specified");
 
-        // Splice the data onto the config
-        BCFMap config = configCache.getUnchecked(id);
-        config.addAll(data);
-
-        // Determine provider
-        BCFItem providedByItem = config.get("provided_by");
-        if (providedByItem == null)
-            throw new InvalidConfigurationException("Configuration must provide a provided_by");
-        String providedBy = providedByItem.asString();
-
-        // Spawn the actual entity with the configuration JSON
-        InvokeWrapper creator = creatorCache.getUnchecked(providedBy);
-        Entity entity = (Entity) creator.invoke(Util.generateUUID(), config);
-        Game.INSTANCE.world.addToWorld(entity, player);
+        Entity.spawnEntity(id, data, player);
     }
 }
