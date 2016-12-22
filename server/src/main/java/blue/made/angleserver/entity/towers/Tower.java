@@ -1,6 +1,5 @@
 package blue.made.angleserver.entity.towers;
 
-import blue.made.angleserver.Game;
 import blue.made.angleserver.Player;
 import blue.made.angleserver.entity.Entity;
 import blue.made.angleserver.entity.minions.Minion;
@@ -39,7 +38,7 @@ public abstract class Tower extends Entity {
      * @param config
      */
     public Tower(long uuid, Player player, BCFMap config) {
-        super(uuid, player, config);
+        super(uuid, config);
 
         if (config == null)
             throw new InvalidParameterException("Cannot have null configuration");
@@ -64,15 +63,28 @@ public abstract class Tower extends Entity {
     }
 
     @Override
-    protected void onSpawn() {
+    public boolean canPlace(World world) {
+        // TODO: Check that it can be placed
+
+        return false;
     }
 
     @Override
-    protected boolean checkSpawn() {
+    public boolean canBuild(World w, Player p) {
         if (!owner.hasFunds(price)) return false;
 
-        // TODO: Check that it can be placed
+        // TODO: Do other build checks?
         return true;
+    }
+
+    @Override
+    protected void onBuild(World w, Player p) {
+        p.spendGold(price);
+    }
+
+    @Override
+    protected void onPlace(World world) {
+        world.addToWorld(this);
     }
 
     protected HashSet<Minion> getMinions(World world) {

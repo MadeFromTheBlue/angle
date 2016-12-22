@@ -80,18 +80,18 @@ public abstract class Entity {
     }
 
     public final boolean spawn(World w, Player p) {
-        if (!canPlace(w)) return false;
         if (!canBuild(w, p)) return false;
-        w.addToWorld(this);
-        onPlace(w);
+        if (!spawn(w)) return false;
         onBuild(w, p);
         return true;
     }
 
     public abstract boolean canPlace(World world);
+
     public abstract boolean canBuild(World world, Player p);
 
     protected abstract void onPlace(World world);
+
     protected abstract void onBuild(World world, Player p);
 
     public abstract void tick(World world);
