@@ -4,6 +4,7 @@ import blue.made.angleserver.Player;
 import blue.made.angleserver.entity.Entity;
 import blue.made.angleserver.entity.minions.Minion;
 import blue.made.angleserver.world.World;
+import blue.made.angleserver.world.tags.Tags;
 import blue.made.angleshared.util.Location;
 import blue.made.angleshared.util.Point;
 import blue.made.bcf.BCFItem;
@@ -34,10 +35,9 @@ public abstract class Tower extends Entity {
      * in the future.
      *
      * @param uuid
-     * @param player
      * @param config
      */
-    public Tower(long uuid, Player player, BCFMap config) {
+    public Tower(long uuid, BCFMap config) {
         super(uuid, config);
 
         if (config == null)
@@ -46,7 +46,6 @@ public abstract class Tower extends Entity {
         this.price = config.get("price").asNumeric().intValue();
         this.x = config.get("x").asNumeric().intValue();
         this.y = config.get("y").asNumeric().intValue();
-        this.owner = player;
 
         BCFItem upgradesToConfig = config.get("upgrades_to");
         if (upgradesToConfig == null) {
@@ -63,22 +62,18 @@ public abstract class Tower extends Entity {
     }
 
     @Override
-    public boolean canPlace(World world) {
-        // TODO: Check that it can be placed
-
-        return false;
+    public boolean canPlace(World w) {
+        return w.getTile(x, y).isTagged(Tags.ground);
     }
 
     @Override
     public boolean canBuild(World w, Player p) {
-        if (!owner.hasFunds(price)) return false;
-
-        // TODO: Do other build checks?
-        return true;
+        return p.hasFunds(price);
     }
 
     @Override
-    protected void onBuild(World w, Player p) {
+    public void onBuild(World w, Player p) {
+        owner = p;
         p.spendGold(price);
     }
 
@@ -102,7 +97,6 @@ public abstract class Tower extends Entity {
     }
 
     protected Point getPoint() {
-        // TODO: Make this the center
         return new Point(x, y);
     }
 }
