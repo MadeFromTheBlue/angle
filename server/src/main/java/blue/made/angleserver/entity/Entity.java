@@ -18,28 +18,33 @@ public abstract class Entity {
      * Takes a UUID instead of generating a new one so that games towers can be saved and reloaded
      * in the future.
      */
-    public Entity(long uuid, Player player, BCFMap config) {
+    public Entity(long uuid, BCFMap config) {
         this.uuid = uuid;
     }
 
-    /**
-     * Called by {@link #spawn()}
-     */
-    protected abstract void onSpawn();
-
-    /**
-     * Called by {@link #spawn()}
-     */
-    protected abstract boolean checkSpawn();
-
-    public abstract void tick(World world);
-
-    public final boolean spawn() {
-        if (!checkSpawn()) return false;
-        onSpawn();
-        spawned = true;
+    public final boolean spawn(World w) {
+        if (!canPlace(w)) return false;
+        w.addToWorld(this);
+        onPlace(w);
         return true;
     }
+
+    public final boolean spawn(World w, Player p) {
+        if (!canPlace(w)) return false;
+        if (!canCreate(w, p)) return false;
+        w.addToWorld(this);
+        onPlace(w);
+        onCreate(w, p);
+        return true;
+    }
+
+    public abstract boolean canPlace(World world);
+    public abstract boolean canCreate(World world, Player p);
+
+    protected abstract void onPlace(World world);
+    protected abstract void onCreate(World world, Player p);
+
+    public abstract void tick(World world);
 
     /**
      * Writes the data needed by the client to first display this entity.

@@ -4,6 +4,7 @@ import blue.made.angleserver.action.Action;
 import blue.made.angleserver.config.JSONConfig;
 import blue.made.angleserver.entity.Entity;
 import blue.made.angleserver.network.Client;
+import blue.made.angleserver.network.packet.out.OPacket;
 import blue.made.angleserver.world.World;
 import blue.made.angleserver.world.tags.TagRegistry;
 import blue.made.angleshared.resolver.Resolver;
@@ -50,9 +51,25 @@ public class Game {
         }
     }
 
+    public void flushClients() {
+        active.forEach(c -> c.send());
+    }
+
+    public void sendToClients(OPacket p) {
+        active.forEach(c -> c.send(p));
+    }
+
+    public void queueToClients(OPacket p) {
+        active.forEach(c -> c.queuePacket(p));
+    }
+
     public void run() {
         while (!gameOver) {
+            // TODO: timing
             // TODO: Do stuff
+
+            if (world != null) world.tick();
+            flushClients();
 
             this.now = Instant.now();
         }

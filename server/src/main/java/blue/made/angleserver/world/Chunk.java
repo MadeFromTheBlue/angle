@@ -1,26 +1,16 @@
 package blue.made.angleserver.world;
 
+import blue.made.angleserver.entity.minions.Minion;
 import blue.made.angleserver.util.bounds.PointBoundQ;
+import org.apache.commons.math3.analysis.function.Min;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 /**
  * Created by Sam Sartor on 6/13/2016.
  */
 public class Chunk {
-    //public List<Structure> structures = new ArrayList<>();
-    public boolean invalidStructures = false;
-
-    // TODO: Make this work
-    /*
-    public Structure getStructure(int x, int y) {
-        PointBoundQ check = new PointBoundQ(x, y);
-        for (Structure struct : structures) {
-            struct.getBounds().accept(check);
-            check.reset();
-        }
-        return null;
-    }
-    */
+    public List<Minion> minions = new LinkedList<>();
 }

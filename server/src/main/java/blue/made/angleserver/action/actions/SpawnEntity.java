@@ -29,7 +29,7 @@ public class SpawnEntity extends Action {
             .build(new CacheLoader<String, InvokeWrapper>() {
                 @Override
                 public InvokeWrapper load(String key) throws Exception {
-                    return Game.entityResolver.creator(key, long.class, Player.class, BCFMap.class);
+                    return Game.entityResolver.creator(key, long.class, BCFMap.class);
                 }
             });
 
@@ -65,7 +65,7 @@ public class SpawnEntity extends Action {
 
         // Spawn the actual entity with the configuration JSON
         InvokeWrapper creator = creatorCache.getUnchecked(providedBy);
-        Entity entity = (Entity) creator.invoke(Util.generateUUID(), player, config);
-        Game.INSTANCE.world.addToWorld(entity);
+        Entity entity = (Entity) creator.invoke(Util.generateUUID(), config);
+        Game.INSTANCE.world.addToWorld(entity, player);
     }
 }

@@ -90,9 +90,9 @@ public class DirectionalTower extends Tower {
         boolean hit = false;
 
         // Attack minions
-        for (Minion m : this.getMinions()) {
+        for (Minion m : this.getMinions(world)) {
             Point towerPt = this.getPoint();
-            Point minionPoint = m.getPoint();
+            Point minionPoint = m.getPos();
 
             boolean angleInAngleRange = Util.angleInRange(this.angle, Point.angle(towerPt, minionPoint), dtheta);
             boolean angleInRange = Point.dist(towerPt, minionPoint) < this.range;

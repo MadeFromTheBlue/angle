@@ -4,6 +4,7 @@ import blue.made.angleserver.Game;
 import blue.made.angleserver.Player;
 import blue.made.angleserver.entity.Entity;
 import blue.made.angleserver.entity.minions.Minion;
+import blue.made.angleserver.world.World;
 import blue.made.angleshared.util.Location;
 import blue.made.angleshared.util.Point;
 import blue.made.bcf.BCFItem;
@@ -74,9 +75,9 @@ public abstract class Tower extends Entity {
         return true;
     }
 
-    protected HashSet<Minion> getMinions() {
+    protected HashSet<Minion> getMinions(World world) {
         HashSet<Minion> minions = new HashSet<>();
-        for (TLongObjectIterator it = Game.INSTANCE.world.entities.iterator(); it.hasNext(); ) {
+        for (TLongObjectIterator it = world.entities.iterator(); it.hasNext(); ) {
             it.advance();
             if (it.value() instanceof Minion) minions.add((Minion) it.value());
         }

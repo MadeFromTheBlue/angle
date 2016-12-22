@@ -1,9 +1,11 @@
 package blue.made.angleserver.world;
 
+import blue.made.angleserver.Player;
 import blue.made.angleserver.entity.Entity;
 import blue.made.angleserver.world.tags.TagRegistry;
 import blue.made.angleserver.world.tags.Tags;
 import blue.made.angleshared.util.Location;
+import blue.made.angleshared.util.Point;
 import gnu.trove.map.hash.TLongObjectHashMap;
 
 /**
@@ -40,10 +42,8 @@ public class World {
         });
     }
 
-    public boolean addToWorld(Entity e) {
-        if (!e.spawn()) return false;
+    public void addToWorld(Entity e) {
         this.entities.put(e.uuid, e);
-        return true;
     }
 
     private int roundUp(int n, int m) {
@@ -82,6 +82,14 @@ public class World {
 
     public Tile getTile(Location location) {
         return getTile(location.x, location.y);
+    }
+
+    public Chunk getChunkAt(Point p) {
+        return getChunkAt(p.intX(), p.intY());
+    }
+
+    public Chunk getChunkAt(Location l) {
+        return getChunkAt(l.x, l.y);
     }
 
     public Chunk getChunkAt(int x, int y) {
