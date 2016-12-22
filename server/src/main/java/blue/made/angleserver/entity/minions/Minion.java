@@ -90,6 +90,7 @@ public abstract class Minion extends Entity {
 
     @Override
     public boolean canPlace(World w) {
+        // TODO: more open requirements
         return w.getTile(pos.intX(), pos.intY()).isTagged(Tags.path);
     }
 

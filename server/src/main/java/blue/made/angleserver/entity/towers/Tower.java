@@ -5,6 +5,7 @@ import blue.made.angleserver.Player;
 import blue.made.angleserver.entity.Entity;
 import blue.made.angleserver.entity.minions.Minion;
 import blue.made.angleserver.world.World;
+import blue.made.angleserver.world.tags.Tags;
 import blue.made.angleshared.util.Location;
 import blue.made.angleshared.util.Point;
 import blue.made.bcf.BCFItem;
@@ -35,11 +36,10 @@ public abstract class Tower extends Entity {
      * in the future.
      *
      * @param uuid
-     * @param player
      * @param config
      */
-    public Tower(long uuid, Player player, BCFMap config) {
-        super(uuid, player, config);
+    public Tower(long uuid, BCFMap config) {
+        super(uuid, config);
 
         if (config == null)
             throw new InvalidParameterException("Cannot have null configuration");
@@ -47,7 +47,6 @@ public abstract class Tower extends Entity {
         this.price = config.get("price").asNumeric().intValue();
         this.x = config.get("x").asNumeric().intValue();
         this.y = config.get("y").asNumeric().intValue();
-        this.owner = player;
 
         BCFItem upgradesToConfig = config.get("upgrades_to");
         if (upgradesToConfig == null) {
@@ -64,15 +63,21 @@ public abstract class Tower extends Entity {
     }
 
     @Override
-    protected void onSpawn() {
+    public boolean canPlace(World w) {
+        return w.getTile(x, y).isTagged(Tags.ground);
     }
 
     @Override
-    protected boolean checkSpawn() {
-        if (!owner.hasFunds(price)) return false;
+    public boolean canBuild(World w, Player p) {
+        return p.hasFunds(price);
+    }
 
-        // TODO: Check that it can be placed
-        return true;
+    @Override
+    public void onPlace(World w) {}
+
+    @Override
+    public void onBuild(World w, Player p) {
+        owner = p;
     }
 
     protected HashSet<Minion> getMinions(World world) {
@@ -90,7 +95,6 @@ public abstract class Tower extends Entity {
     }
 
     protected Point getPoint() {
-        // TODO: Make this the center
         return new Point(x, y);
     }
 }
