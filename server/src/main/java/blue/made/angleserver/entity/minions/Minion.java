@@ -94,7 +94,7 @@ public abstract class Minion extends Entity {
     }
 
     @Override
-    public boolean canCreate(World w, Player p) {
+    public boolean canBuild(World w, Player p) {
         return false;
     }
 
@@ -104,5 +104,5 @@ public abstract class Minion extends Entity {
     }
 
     @Override
-    public void onCreate(World w, Player p) {}
+    public void onBuild(World w, Player p) {}
 }
