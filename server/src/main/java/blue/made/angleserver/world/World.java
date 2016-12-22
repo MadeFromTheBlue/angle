@@ -46,6 +46,11 @@ public class World {
         return true;
     }
 
+    public boolean removeFromWorld(long uuid) {
+        this.entities.remove(uuid);
+        return true;
+    }
+
     private int roundUp(int n, int m) {
         int r = n % m;
         if (r != 0) n += m - r;

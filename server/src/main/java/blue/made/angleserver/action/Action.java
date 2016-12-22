@@ -27,5 +27,5 @@ public abstract class Action {
         return "plain";
     }
 
-    public abstract void run(Player play, BCFMap data);
+    public abstract void run(Player player, BCFMap data);
 }
