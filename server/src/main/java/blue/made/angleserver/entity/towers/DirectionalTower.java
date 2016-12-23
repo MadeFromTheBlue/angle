@@ -1,7 +1,6 @@
 package blue.made.angleserver.entity.towers;
 
 import blue.made.angleserver.Game;
-import blue.made.angleserver.Player;
 import blue.made.angleserver.entity.minions.Minion;
 import blue.made.angleserver.world.World;
 import blue.made.angleshared.exceptions.InvalidConfigurationException;
@@ -39,8 +38,8 @@ public class DirectionalTower extends Tower {
      * @param uuid
      * @param config
      */
-    public DirectionalTower(long uuid, Player player, BCFMap config) {
-        super(uuid, player, config);
+    public DirectionalTower(long uuid, BCFMap config) {
+        super(uuid, config);
 
         // Randomize the angle by default, otherwise, set the angle to the configured initial_angle
         BCFItem initialAngleConfig = config.get("initial_angle");

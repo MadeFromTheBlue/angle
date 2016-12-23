@@ -52,7 +52,7 @@ public class Game {
     }
 
     public void flushClients() {
-        active.forEach(c -> c.send());
+        active.forEach(Client::send);
     }
 
     public void sendToClients(OPacket p) {

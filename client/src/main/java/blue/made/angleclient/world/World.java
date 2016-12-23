@@ -1,7 +1,5 @@
 package blue.made.angleclient.world;
 
-import gnu.trove.map.hash.TLongObjectHashMap;
-
 import java.util.function.Consumer;
 
 /**
@@ -20,8 +18,7 @@ public class World {
 
     public Tags tags;
 
-    public Consumer<World> onChange = w -> {
-    };
+    public Consumer<World> onChange = w -> {};
 
     public World(int xwidth, int ywidth, int chunkSize) {
         this.xwidth = xwidth;

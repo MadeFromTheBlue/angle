@@ -1,6 +1,5 @@
 import blue.made.angleshared.util.Util;
 import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
@@ -32,14 +31,11 @@ public class UtilTests {
     }
 
     @Test
-    public void testValueFromJsonOrDefault() {
-        String json = "{\"exists\":\"custom\"}";
-        JsonObject jsonObject = new JsonParser().parse(json).getAsJsonObject();
+    public void testGetConfigJson() {
+        JsonObject config = Util.findConfigJson("config");
+        JsonObject nestedConfig = Util.findConfigJson("nested.nested_config");
 
-        assertEquals("default", Util.valueFromJsonOrDefault(jsonObject, "dne", "default"));
-        assertEquals("custom", Util.valueFromJsonOrDefault(jsonObject, "exists", "default"));
-        assertEquals(1, (int) Util.valueFromJsonOrDefault(jsonObject, "dne", 1));
-        assertEquals(true, Util.valueFromJsonOrDefault(jsonObject, "dne", true));
-        assertNull(Util.valueFromJsonOrDefault(jsonObject, "dne", null));
+        assertEquals("bar", config.get("foo").getAsString());
+        assertEquals("nested", nestedConfig.get("type").getAsString());
     }
 }

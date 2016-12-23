@@ -28,7 +28,7 @@ public abstract class Entity {
             .build(new CacheLoader<String, InvokeWrapper>() {
                 @Override
                 public InvokeWrapper load(String key) throws Exception {
-                    return Game.entityResolver.creator(key, long.class, Player.class, BCFMap.class);
+                    return Game.entityResolver.creator(key, long.class, BCFMap.class);
                 }
             });
 

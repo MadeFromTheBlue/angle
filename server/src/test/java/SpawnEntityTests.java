@@ -45,6 +45,6 @@ public class SpawnEntityTests {
         assertEquals(30, tower.price);
         assertEquals(2f, tower.fireRate);
         assertEquals(5, tower.range);
-        assertTrue(Arrays.deepEquals(new String[]{"air_tower_2"}, tower.upgradesTo));
+        assertTrue(Arrays.deepEquals(new String[]{"towers.air2"}, tower.upgradesTo));
     }
 }
