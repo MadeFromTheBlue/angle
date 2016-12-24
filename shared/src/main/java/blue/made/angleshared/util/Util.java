@@ -1,13 +1,12 @@
 package blue.made.angleshared.util;
 
 import blue.made.angleshared.asset.AssetSource;
-import blue.made.angleshared.asset.CachingPermanentAssetSource;
-import blue.made.angleshared.asset.UncachingAssetSource;
+import blue.made.angleshared.asset.UncachedAssetSource;
+import blue.made.angleshared.asset.WaitingAssetSource;
 import blue.made.bcf.BCF;
 import blue.made.bcf.BCFItem;
 import blue.made.bcf.BCFReader;
 import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
 import java.io.*;
@@ -19,7 +18,7 @@ public class Util {
     public static AssetSource<JsonElement> jsonConfigs;
     static {
         JsonParser parse = new JsonParser();
-        jsonConfigs = new UncachingAssetSource<JsonElement>() {
+        jsonConfigs = new UncachedAssetSource<JsonElement>() {
             protected JsonElement load(String group, String id) throws Exception {
                 String path = String.format("configs/%s.", id.replace('.', '/'));
                 try {
@@ -35,12 +34,13 @@ public class Util {
                 }
             }
         };
+        ((WaitingAssetSource) jsonConfigs).setReady();
     }
 
     public static AssetSource<BCFItem> bcfConfigs;
     static {
         JsonParser parse = new JsonParser();
-        bcfConfigs = new UncachingAssetSource<BCFItem>() {
+        bcfConfigs = new UncachedAssetSource<BCFItem>() {
             protected BCFItem load(String group, String id) throws Exception {
                 String path = String.format("configs/%s.", id.replace('.', '/'));
                 try {
@@ -56,6 +56,7 @@ public class Util {
                 }
             }
         };
+        ((WaitingAssetSource) bcfConfigs).setReady();
     }
 
 

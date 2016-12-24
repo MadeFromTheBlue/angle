@@ -7,8 +7,8 @@ package blue.made.angleshared.asset;
 public interface AssetSource<A> {
     public Handle<A> get(String group, String id);
 
-    public static <A> CachingPermanentAssetSource<A> cachingPermanent(LoadFunc<A, CachingPermanentAssetSource<A>> load) {
-        return new CachingPermanentAssetSource<A>() {
+    public static <A> CachedPermanentAssetSource<A> cachedPermanent(LoadFunc<A, CachedPermanentAssetSource<A>> load) {
+        return new CachedPermanentAssetSource<A>() {
             @Override
             protected A load(String group, String id) throws Exception {
                 return load.load(this, group, id);
@@ -16,8 +16,8 @@ public interface AssetSource<A> {
         };
     }
 
-    public static <A> UncachingAssetSource<A> uncaching(LoadFunc<A, UncachingAssetSource<A>> load) {
-        return new UncachingAssetSource<A>() {
+    public static <A> UncachedAssetSource<A> uncached(LoadFunc<A, UncachedAssetSource<A>> load) {
+        return new UncachedAssetSource<A>() {
             @Override
             protected A load(String group, String id) throws Exception {
                 return load.load(this, group, id);

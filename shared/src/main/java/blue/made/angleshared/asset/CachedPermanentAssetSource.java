@@ -11,18 +11,18 @@ import java.util.concurrent.ExecutionException;
 /**
  * Created by Sam Sartor on 12/22/2016.
  */
-public abstract class CachingPermanentAssetSource<A> implements AssetSource<A> {
+public abstract class CachedPermanentAssetSource<A> implements WaitingAssetSource<A> {
     private boolean ready = false;
     private final List<Handle<A>> waiting = new ArrayList<>();
     private final LoadingCache<CombinedName, A> cache;
 
-    public CachingPermanentAssetSource() {
+    public CachedPermanentAssetSource() {
         cache = CacheBuilder
         .newBuilder()
         .build(new CacheLoader<CombinedName, A>() {
             @Override
             public A load(CombinedName key) throws Exception {
-                return CachingPermanentAssetSource.this.load(key.group, key.id);
+                return CachedPermanentAssetSource.this.load(key.group, key.id);
             }
         });
     }
