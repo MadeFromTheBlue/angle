@@ -1,17 +1,18 @@
 package blue.made.angleserver;
 
-import blue.made.angleserver.action.Actions;
+import blue.made.angleserver.action.Action;
 import blue.made.angleserver.config.JSONConfig;
-import blue.made.angleserver.entity.Entities;
+import blue.made.angleserver.entity.Entity;
 import blue.made.angleserver.network.Client;
 import blue.made.angleserver.network.packet.out.OPacket;
 import blue.made.angleserver.world.World;
 import blue.made.angleserver.world.tags.TagRegistry;
+import blue.made.angleshared.resolver.Resolver;
 import blue.made.angleshared.util.Util;
 
 import java.io.FileNotFoundException;
+import java.time.Instant;
 import java.util.ArrayList;
-import java.util.Random;
 
 /**
  * Created by Sam Sartor on 5/9/2016.
@@ -21,12 +22,12 @@ public class Game {
         RUNNING;
     }
 
-    public static final short VERSION_MAJOR = -2;
-    public static final short VERSION_MINOR = 0;
-    public static final short VERSION_PATCH = 0;
-
     public static Game INSTANCE = new Game();
+    public static Resolver entityResolver = new Resolver();
+    public static Resolver actionResolver = new Resolver();
 
+    private boolean gameOver;
+    private Instant now;
     private State state = State.RUNNING;
     public World world;
     public TagRegistry tags = new TagRegistry();
@@ -37,8 +38,9 @@ public class Game {
     public ArrayList<Client> active = new ArrayList<>();
 
     public void start() {
-        Actions.init();
-        Entities.init();
+        actionResolver.addPackage("blue.made.angleserver.action.actions", Action.class::isAssignableFrom);
+        entityResolver.addPackage("blue.made.angleserver.entity", Entity.class::isAssignableFrom);
+
         world = new World(tags);
 
         try {
@@ -49,19 +51,36 @@ public class Game {
         }
     }
 
-    public void run() {
-
+    public void flushClients() {
+        active.forEach(Client::send);
     }
 
-    public void sendToAll(OPacket o) {
-        for (Client c : this.active) {
-            c.send(o);
+    public void sendToClients(OPacket p) {
+        active.forEach(c -> c.send(p));
+    }
+
+    public void queueToClients(OPacket p) {
+        active.forEach(c -> c.queuePacket(p));
+    }
+
+    public void run() {
+        while (!gameOver) {
+            // TODO: timing
+            // TODO: Do stuff
+
+            if (world != null) world.tick();
+            flushClients();
+
+            this.now = Instant.now();
         }
     }
 
-    private static Random uuidr = new Random();
+    public Instant getNow() {
+        return now;
+    }
 
-    public static synchronized long newUUID() {
-        return System.currentTimeMillis() ^ ((long) uuidr.nextInt() << 24);
+    // Testing only
+    public static void _reset() {
+        INSTANCE = new Game();
     }
 }

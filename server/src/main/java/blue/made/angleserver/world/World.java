@@ -1,12 +1,11 @@
 package blue.made.angleserver.world;
 
-import blue.made.angleserver.Game;
+import blue.made.angleserver.Player;
 import blue.made.angleserver.entity.Entity;
-import blue.made.angleserver.network.Client;
-import blue.made.angleserver.network.packet.out.O40SpawnEntity;
 import blue.made.angleserver.world.tags.TagRegistry;
 import blue.made.angleserver.world.tags.Tags;
 import blue.made.angleshared.util.Location;
+import blue.made.angleshared.util.Point;
 import gnu.trove.map.hash.TLongObjectHashMap;
 
 /**
@@ -17,7 +16,7 @@ public class World {
     public static final int CHUNK_WIDTH_BITS = 4;
     public static final int CHUNK_WIDTH = 1 << CHUNK_WIDTH_BITS;
 
-    public TLongObjectHashMap<Entity> entities = new TLongObjectHashMap<Entity>();
+    public TLongObjectHashMap<Entity> entities = new TLongObjectHashMap<>();
 
     public int xwidth = -1;
     public int ywidth = -1;
@@ -43,10 +42,13 @@ public class World {
         });
     }
 
-    public void spawnInWorld(Entity e) {
+    public void addToWorld(Entity e) {
         this.entities.put(e.uuid, e);
-        e.postSpawn();
-        Game.INSTANCE.sendToAll(new O40SpawnEntity(e));
+    }
+
+    public boolean removeFromWorld(long uuid) {
+        this.entities.remove(uuid);
+        return true;
     }
 
     private int roundUp(int n, int m) {
@@ -60,10 +62,12 @@ public class World {
         this.ywidth = roundUp(height, CHUNK_WIDTH);
         xchunks = ((xwidth - 1) >> CHUNK_WIDTH_BITS) + 1;
         ychunks = ((ywidth - 1) >> CHUNK_WIDTH_BITS) + 1;
+
         int len = xwidth * ywidth;
         heights = new float[len];
         tileTags = new short[len][0];
         chunks = new Chunk[xchunks * ychunks];
+
         for (int i = 0; i < chunks.length; i++) chunks[i] = new Chunk();
         Tags.register(tagRegistry);
     }
@@ -83,6 +87,14 @@ public class World {
 
     public Tile getTile(Location location) {
         return getTile(location.x, location.y);
+    }
+
+    public Chunk getChunkAt(Point p) {
+        return getChunkAt(p.intX(), p.intY());
+    }
+
+    public Chunk getChunkAt(Location l) {
+        return getChunkAt(l.x, l.y);
     }
 
     public Chunk getChunkAt(int x, int y) {
