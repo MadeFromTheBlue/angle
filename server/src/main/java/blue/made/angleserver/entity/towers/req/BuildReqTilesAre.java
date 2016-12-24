@@ -1,7 +1,7 @@
-package blue.made.angleserver.entity.structure.req;
+package blue.made.angleserver.entity.towers.req;
 
 import blue.made.angleserver.Player;
-import blue.made.angleserver.entity.structure.StructureSpec;
+import blue.made.angleserver.entity.towers.Tower;
 import blue.made.angleserver.network.Client;
 import blue.made.angleserver.util.bounds.BoundQ;
 import blue.made.angleserver.util.bounds.IterBoundQ;
@@ -39,13 +39,12 @@ public class BuildReqTilesAre implements BuildReq {
     }
 
     @Override
-    public boolean check(StructureSpec spec, World w, Player p, Client c, int x, int y, int r,
-                         BCFMap other) {
+    public boolean check(Tower t, World w, Player p, Client c, int x, int y, int r, BCFMap other) {
         Q q = new Q(w);
         BoundQ qer = new IterBoundQ(q);
         qer.translate(x, y);
         qer.rotate(r);
-        spec.getDefaultBounds().accept(qer);
+        t.getDefaultBounds().accept(qer);
         return q.out;
     }
 

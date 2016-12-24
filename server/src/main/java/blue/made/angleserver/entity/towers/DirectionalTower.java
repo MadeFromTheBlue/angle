@@ -2,6 +2,7 @@ package blue.made.angleserver.entity.towers;
 
 import blue.made.angleserver.Game;
 import blue.made.angleserver.entity.minions.Minion;
+import blue.made.angleserver.util.bounds.BoundQ;
 import blue.made.angleserver.world.World;
 import blue.made.angleshared.exceptions.InvalidConfigurationException;
 import blue.made.angleshared.resolver.Provides;
@@ -13,6 +14,7 @@ import blue.made.bcf.BCFMap;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.Random;
+import java.util.function.Consumer;
 
 /**
  * Created by Sumner Evans on 2016/12/16.
@@ -25,7 +27,7 @@ public class DirectionalTower extends Tower {
     public final float fireRate;
     public final float dtheta;
     public final int damage;
-    public final int range;
+    public final float range;
     public final boolean isAreaOfEffect;
 
     private float angle;
@@ -69,6 +71,24 @@ public class DirectionalTower extends Tower {
         fireRate = config.get("fire_rate").asNumeric().intValue();
         damage = config.get("damage").asNumeric().intValue();
         range = config.get("range").asNumeric().intValue();
+    }
+
+    @Override
+    public void onPlace(World w) {
+        int rad = (int) Math.ceil(range);
+        buildTargets(w, q -> q.box(-rad, -rad, rad, rad));
+    }
+
+    @Override
+    public Consumer<BoundQ> getDefaultBounds() {
+        return q -> q.box(-1, -1, 1, 1);
+    }
+
+    // TODO: Figure out who should control tick (Tower or DirectionalTower) and call attack
+    // accordingly
+    @Override
+    public boolean attack(Minion e) {
+        return false;
     }
 
     @Override

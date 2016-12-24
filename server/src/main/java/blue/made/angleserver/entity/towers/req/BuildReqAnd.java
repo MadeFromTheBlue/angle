@@ -1,7 +1,7 @@
-package blue.made.angleserver.entity.structure.req;
+package blue.made.angleserver.entity.towers.req;
 
 import blue.made.angleserver.Player;
-import blue.made.angleserver.entity.structure.StructureSpec;
+import blue.made.angleserver.entity.towers.Tower;
 import blue.made.angleserver.network.Client;
 import blue.made.angleserver.world.World;
 import blue.made.bcf.BCFMap;
@@ -25,10 +25,9 @@ public class BuildReqAnd implements BuildReq {
     }
 
     @Override
-    public boolean check(StructureSpec spec, World w, Player n, Client c, int x, int y, int r,
-                         BCFMap other) {
+    public boolean check(Tower t, World w, Player n, Client c, int x, int y, int r, BCFMap other) {
         for (BuildReq req : all) {
-            if (!req.check(spec, w, n, c, x, y, r, other)) return false;
+            if (!req.check(t, w, n, c, x, y, r, other)) return false;
         }
         return true;
     }

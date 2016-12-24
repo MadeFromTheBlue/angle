@@ -1,7 +1,7 @@
-package blue.made.angleserver.entity.structure.req;
+package blue.made.angleserver.entity.towers.req;
 
 import blue.made.angleserver.Player;
-import blue.made.angleserver.entity.structure.StructureSpec;
+import blue.made.angleserver.entity.towers.Tower;
 import blue.made.angleserver.network.Client;
 import blue.made.angleserver.world.World;
 import blue.made.bcf.BCFMap;
@@ -12,5 +12,5 @@ import blue.made.bcf.BCFMap;
 public interface BuildReq {
     // TODO send to client
 
-    boolean check(StructureSpec spec, World w, Player p, Client c, int x, int y, int r, BCFMap other);
+    boolean check(Tower t, World w, Player p, Client c, int x, int y, int r, BCFMap other);
 }

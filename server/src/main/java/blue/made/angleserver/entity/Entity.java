@@ -100,8 +100,7 @@ public abstract class Entity {
      * Writes the data needed by the client to first display this entity.
      */
     public void writeInitialData(BCFWriter.Map map) throws IOException {
-        map.writeName("id");
-        map.write(uuid);
+        map.put("id", uuid);
     }
 
     public boolean isSpawned() {

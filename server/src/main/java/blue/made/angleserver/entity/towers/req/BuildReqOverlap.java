@@ -1,8 +1,7 @@
-package blue.made.angleserver.entity.structure.req;
+package blue.made.angleserver.entity.towers.req;
 
 import blue.made.angleserver.Player;
-import blue.made.angleserver.entity.structure.StructureEntity;
-import blue.made.angleserver.entity.structure.StructureSpec;
+import blue.made.angleserver.entity.towers.Tower;
 import blue.made.angleserver.network.Client;
 import blue.made.angleserver.util.bounds.GridBoundQ;
 import blue.made.angleserver.util.bounds.IntersectBoundQ;
@@ -33,10 +32,10 @@ public class BuildReqOverlap implements BuildReq {
         public Boolean apply(Location cl) {
             if (!out) return true;
             Chunk c = world.getChunk(cl.x, cl.y);
-            for (StructureEntity s : c.structures) {
+            for (Tower t : c.towers) {
                 iq.reset();
-                s.getBounds().accept(iq);
-                if (iq.intersects() && (predicate == null || predicate.test(s))) {
+                t.getBounds().accept(iq);
+                if (iq.intersects() && (predicate == null || predicate.test(t))) {
                     out = false;
                     return true;
                 }
@@ -45,9 +44,9 @@ public class BuildReqOverlap implements BuildReq {
         }
     }
 
-    public Predicate<StructureEntity> predicate;
+    public Predicate<Tower> predicate;
 
-    public BuildReqOverlap(Predicate<StructureEntity> predicate) {
+    public BuildReqOverlap(Predicate<Tower> predicate) {
         this.predicate = predicate;
     }
 
@@ -56,17 +55,16 @@ public class BuildReqOverlap implements BuildReq {
     }
 
     @Override
-    public boolean check(StructureSpec spec, World w, Player p, Client c, int x, int y, int r,
-                         BCFMap other) {
+    public boolean check(Tower t, World w, Player p, Client c, int x, int y, int r, BCFMap other) {
         StoreBoundQ store = new StoreBoundQ();
         store.translate(x, y);
         store.rotate(r);
-        spec.getDefaultBounds().accept(store);
+        t.getDefaultBounds().accept(store);
         Q q = new Q(w, new IntersectBoundQ(store.getStored()));
         GridBoundQ qer = new GridBoundQ(World.CHUNK_WIDTH, q);
         qer.translate(x, y);
         qer.rotate(r);
-        spec.getDefaultBounds().accept(qer);
+        t.getDefaultBounds().accept(qer);
         return q.out;
     }
 
