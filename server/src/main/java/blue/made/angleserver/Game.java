@@ -44,7 +44,7 @@ public class Game {
         world = new World(tags);
 
         try {
-            JSONConfig.loadWorld(world, Util.newJsonElement("default-config.json"));
+            JSONConfig.loadWorld(world, Util.getJsonFromFile("default-config.json"));
         } catch (FileNotFoundException e) {
             e.printStackTrace();
             return;
