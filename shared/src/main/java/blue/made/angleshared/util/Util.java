@@ -2,6 +2,9 @@ package blue.made.angleshared.util;
 
 import blue.made.angleshared.asset.AssetSource;
 import blue.made.angleshared.asset.CachingPermanentAssetSource;
+import blue.made.bcf.BCF;
+import blue.made.bcf.BCFItem;
+import blue.made.bcf.BCFReader;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -12,17 +15,50 @@ import java.io.*;
  * Created by sumner on 11/30/16.
  */
 public class Util {
-    public static AssetSource<JsonElement> configs;
+    public static AssetSource<JsonElement> jsonConfigs;
     static {
         JsonParser parse = new JsonParser();
         CachingPermanentAssetSource<JsonElement> source = new CachingPermanentAssetSource<JsonElement>() {
             protected JsonElement load(String group, String id) throws Exception {
-                String path = String.format("configs/%s.json", id.replace('.', '/'));
-                return parse.parse(new InputStreamReader(Util.newFileStream(path)));
+                String path = String.format("configs/%s.", id.replace('.', '/'));
+                try {
+                    return parse.parse(new InputStreamReader(Util.newFileStream(path + "json")));
+                } catch (FileNotFoundException e) {
+                    BCFItem bcf;
+                    try {
+                        bcf = BCF.read(new BCFReader(Util.newFileStream(path + "bcf")));
+                    } catch (FileNotFoundException e2) {
+                        throw e;
+                    }
+                    return BCF.toJson(bcf);
+                }
             }
         };
         source.setReady();
-        configs = source;
+        jsonConfigs = source;
+    }
+
+    public static AssetSource<BCFItem> bcfConfigs;
+    static {
+        JsonParser parse = new JsonParser();
+        CachingPermanentAssetSource<BCFItem> source = new CachingPermanentAssetSource<BCFItem>() {
+            protected BCFItem load(String group, String id) throws Exception {
+                String path = String.format("configs/%s.", id.replace('.', '/'));
+                try {
+                    return BCF.read(new BCFReader(Util.newFileStream(path + "bcf")));
+                } catch (FileNotFoundException e) {
+                    JsonElement json;
+                    try {
+                        json = parse.parse(new InputStreamReader(Util.newFileStream(path + "json")));
+                    } catch (FileNotFoundException e2) {
+                        throw e;
+                    }
+                    return BCF.fromJson(json);
+                }
+            }
+        };
+        source.setReady();
+        bcfConfigs = source;
     }
 
 
