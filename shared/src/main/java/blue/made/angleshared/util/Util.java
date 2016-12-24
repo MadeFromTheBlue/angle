@@ -2,6 +2,7 @@ package blue.made.angleshared.util;
 
 import blue.made.angleshared.asset.AssetSource;
 import blue.made.angleshared.asset.CachingPermanentAssetSource;
+import blue.made.angleshared.asset.UncachingAssetSource;
 import blue.made.bcf.BCF;
 import blue.made.bcf.BCFItem;
 import blue.made.bcf.BCFReader;
@@ -18,7 +19,7 @@ public class Util {
     public static AssetSource<JsonElement> jsonConfigs;
     static {
         JsonParser parse = new JsonParser();
-        CachingPermanentAssetSource<JsonElement> source = new CachingPermanentAssetSource<JsonElement>() {
+        jsonConfigs = new UncachingAssetSource<JsonElement>() {
             protected JsonElement load(String group, String id) throws Exception {
                 String path = String.format("configs/%s.", id.replace('.', '/'));
                 try {
@@ -34,14 +35,12 @@ public class Util {
                 }
             }
         };
-        source.setReady();
-        jsonConfigs = source;
     }
 
     public static AssetSource<BCFItem> bcfConfigs;
     static {
         JsonParser parse = new JsonParser();
-        CachingPermanentAssetSource<BCFItem> source = new CachingPermanentAssetSource<BCFItem>() {
+        bcfConfigs = new UncachingAssetSource<BCFItem>() {
             protected BCFItem load(String group, String id) throws Exception {
                 String path = String.format("configs/%s.", id.replace('.', '/'));
                 try {
@@ -57,8 +56,6 @@ public class Util {
                 }
             }
         };
-        source.setReady();
-        bcfConfigs = source;
     }
 
 

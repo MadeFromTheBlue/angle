@@ -15,4 +15,13 @@ public interface AssetSource<A> {
             }
         };
     }
+
+    public static <A> UncachingAssetSource<A> uncaching(LoadFunc<A, UncachingAssetSource<A>> load) {
+        return new UncachingAssetSource<A>() {
+            @Override
+            protected A load(String group, String id) throws Exception {
+                return load.load(this, group, id);
+            }
+        };
+    }
 }
