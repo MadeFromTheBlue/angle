@@ -1,5 +1,7 @@
 package blue.made.angleshared.util;
 
+import blue.made.bcf.BCFMap;
+
 /**
  * Created by Sam Sartor on 6/8/2016.
  */
@@ -9,6 +11,11 @@ public class Point implements Cloneable {
     public Point(float x, float y) {
         this.x = x;
         this.y = y;
+    }
+
+    public Point(BCFMap pointData) {
+        this.x = pointData.get("x").asNumeric().floatValue();
+        this.y = pointData.get("y").asNumeric().floatValue();
     }
 
     /**
@@ -29,8 +36,16 @@ public class Point implements Cloneable {
         return this.equals(other.x, other.y);
     }
 
+    public boolean equals(Point o, float squareDist) {
+        return equals(o.x, o.y, squareDist);
+    }
+
+    public boolean equals(float x, float y, float squareDist) {
+        return Math.abs(this.x - x) < squareDist && Math.abs(this.y - y) < squareDist;
+    }
+
     public boolean equals(float x, float y) {
-        return Math.abs(this.x - x) < Util.FLOAT_TOLERANCE && Math.abs(this.y - y) < Util.FLOAT_TOLERANCE;
+        return equals(x, y, Util.FLOAT_TOLERANCE);
     }
 
     /**

@@ -9,7 +9,7 @@ import blue.made.bcf.BCFMap;
 public abstract class Entity {
     public final long uuid;
 
-    public Entity(long uuid) {
+    public Entity(long uuid, BCFMap config) {
         this.uuid = uuid;
     }
 
