@@ -1,4 +1,5 @@
 import blue.made.angleshared.util.Util;
+import blue.made.bcf.BCFMap;
 import com.google.gson.JsonObject;
 import org.junit.Test;
 
@@ -32,10 +33,23 @@ public class UtilTests {
 
     @Test
     public void testGetConfigJson() {
-        JsonObject config = Util.findConfigJson("config");
-        JsonObject nestedConfig = Util.findConfigJson("nested.nested_config");
+        JsonObject config = Util.jsonConfigs.get("test", "config").pull().getAsJsonObject();
+        JsonObject bcfconfig = Util.jsonConfigs.get("test", "bcfconfig").pull().getAsJsonObject();
+        JsonObject nestedConfig = Util.jsonConfigs.get("test", "nested.nested_config").pull().getAsJsonObject();
 
         assertEquals("bar", config.get("foo").getAsString());
+        assertEquals("binary world", bcfconfig.get("hello").getAsString());
         assertEquals("nested", nestedConfig.get("type").getAsString());
+    }
+
+    @Test
+    public void testGetConfigBCF() {
+        BCFMap config = Util.bcfConfigs.get("test", "config").pull().asMap();
+        BCFMap bcfconfig = Util.bcfConfigs.get("test", "bcfconfig").pull().asMap();
+        BCFMap nestedConfig = Util.bcfConfigs.get("test", "nested.nested_config").pull().asMap();
+
+        assertEquals("bar", config.get("foo").asString());
+        assertEquals("binary world", bcfconfig.get("hello").asString());
+        assertEquals("nested", nestedConfig.get("type").asString());
     }
 }

@@ -37,7 +37,7 @@ public abstract class Entity {
             .build(new CacheLoader<String, BCFMap>() {
                 @Override
                 public BCFMap load(String id) throws Exception {
-                    return (BCFMap) BCF.fromJson(Util.findConfigJson(id));
+                    return Util.bcfConfigs.get("angle", id).pull().asMap();
                 }
             });
 
