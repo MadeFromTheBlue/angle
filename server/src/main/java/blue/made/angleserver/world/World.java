@@ -40,9 +40,10 @@ public class World {
         });
     }
 
-    public void addToWorld(Entity e) {
+    public boolean addToWorld(Entity e) {
+        if (!e.spawn()) return false;
         this.entities.put(e.uuid, e);
-        e.postSpawn();
+        return true;
     }
 
     private int roundUp(int n, int m) {

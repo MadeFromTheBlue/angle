@@ -4,9 +4,6 @@ import blue.made.angleclient.Game;
 import blue.made.angleclient.action.Action;
 import blue.made.angleclient.action.ActionRegistry;
 import blue.made.angleclient.entity.Entity;
-import blue.made.angleclient.entity.EntityRegistry;
-import blue.made.angleclient.entity.EntitySpec;
-import blue.made.angleclient.entity.structure.StructureSpec;
 import blue.made.angleclient.network.packet.in.ServerInfo;
 import blue.made.angleclient.world.Chunk;
 import blue.made.angleclient.world.Tags;
@@ -99,25 +96,6 @@ public class PacketManager {
 
             return new ServerInfo(name, desc, ico, version.get(0).asNumeric().shortValue(), version.get(1).asNumeric().shortValue(), version.get(2).asNumeric().shortValue());
         };
-        ipackets[0x10] = (ByteBuf data) -> {
-            BCFReader reader = new BCFReader(data);
-            BCFMap map = BCF.read(reader).asMap();
-            String id = map.get("spec").asString();
-
-            EntitySpec spec;
-            switch (map.get("type").asString()) {
-                case "struct":
-                    spec = new StructureSpec();
-                    break;
-
-                default:
-                    spec = null;
-            }
-            spec.readSpec(map);
-            spec.id = id;
-
-            return (IPacket) () -> EntityRegistry.specs.put(id, spec);
-        };
         ipackets[0x12] = (ByteBuf data) -> {
             BCFReader reader = new BCFReader(data);
             BCFMap map = BCF.read(reader).asMap();
@@ -184,10 +162,7 @@ public class PacketManager {
             BCFMap map = BCF.read(new BCFReader(data)).asMap();
 
             return (IPacket) () -> {
-                EntitySpec spec = EntityRegistry.specs.get(map.get("spec").asString());
-                if (spec != null) {
-                    spec.spawnFromInitial(map);
-                }
+                // TODO: Actually spawn the entity
             };
         };
         ipackets[0x41] = (ByteBuf data) -> {
@@ -197,12 +172,12 @@ public class PacketManager {
 
             return (IPacket) () -> {
                 Entity a = null;
-                /*
+                /* TODO: Make this work
                 a = game.world.units.get(uuid);
 				if (a == null) a = game.world.structure.get(uuid);
 				*/
 
-                a = game.world.structures.get(uuid);
+                // a = game.world.structures.get(uuid);
 
                 if (a != null) a.dataRec(map);
             };

@@ -3,8 +3,8 @@ package blue.made.angleserver.action.actions;
 import blue.made.angleserver.Game;
 import blue.made.angleserver.Player;
 import blue.made.angleserver.action.Action;
-import blue.made.angleserver.entity.EntityRegistry;
-import blue.made.angleserver.entity.EntitySpec;
+import blue.made.angleshared.resolver.InvokeWrapper;
+import blue.made.angleshared.util.Util;
 import blue.made.bcf.BCFMap;
 
 /**
@@ -18,10 +18,10 @@ public class SpawnEntity extends Action {
         // TODO: better error handling
         if (id == null) return;
 
-        EntitySpec spec = EntityRegistry.registry.get(id);
+        // TODO: Make this actually work
+        InvokeWrapper creator = Game.resolver.creator(id, long.class);
+        creator.invoke(Util.generateUUID());
 
-        if (spec == null) {
-            Game.INSTANCE.world.addToWorld(spec.requestSpawn(player, data));
-        }
+        // TODO: Spawn an actual entity (pull from config)
     }
 }
