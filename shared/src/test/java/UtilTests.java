@@ -32,8 +32,8 @@ public class UtilTests {
 
     @Test
     public void testGetConfigJson() {
-        JsonObject config = Util.findConfigJson("config");
-        JsonObject nestedConfig = Util.findConfigJson("nested.nested_config");
+        JsonObject config = Util.configs.get("test", "config").pull().getAsJsonObject();
+        JsonObject nestedConfig = Util.configs.get("test", "nested.nested_config").pull().getAsJsonObject();
 
         assertEquals("bar", config.get("foo").getAsString());
         assertEquals("nested", nestedConfig.get("type").getAsString());

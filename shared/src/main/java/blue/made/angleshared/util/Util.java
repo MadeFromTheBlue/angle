@@ -1,5 +1,7 @@
 package blue.made.angleshared.util;
 
+import blue.made.angleshared.asset.AssetSource;
+import blue.made.angleshared.asset.CachingPermanentAssetSource;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -10,6 +12,20 @@ import java.io.*;
  * Created by sumner on 11/30/16.
  */
 public class Util {
+    public static AssetSource<JsonElement> configs;
+    static {
+        JsonParser parse = new JsonParser();
+        CachingPermanentAssetSource<JsonElement> source = new CachingPermanentAssetSource<JsonElement>() {
+            protected JsonElement load(String group, String id) throws Exception {
+                String path = String.format("configs/%s.json", id.replace('.', '/'));
+                return parse.parse(new InputStreamReader(Util.newFileStream(path)));
+            }
+        };
+        source.setReady();
+        configs = source;
+    }
+
+
     public static final float FLOAT_TOLERANCE = 0.00001f;
     public static final float floatPI = (float) Math.PI;
 
@@ -56,25 +72,6 @@ public class Util {
         }
 
         return false;
-    }
-
-    public static JsonObject findConfigJson(String id) {
-        // Find the Configuration JSON
-        try {
-            String path = String.format("configs/%s.json", id.replace('.', '/'));
-
-            // Read and parse the JSON
-            InputStreamReader streamReader = new InputStreamReader(Util.newFileStream(path));
-            BufferedReader reader = new BufferedReader(streamReader);
-
-            return new JsonParser().parse(reader).getAsJsonObject();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-
-            // There is no config for this object, just return null
-            return null;
-        }
-
     }
 
     // TODO: FIX THIS CRAP

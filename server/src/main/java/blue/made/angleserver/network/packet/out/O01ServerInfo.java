@@ -1,6 +1,5 @@
 package blue.made.angleserver.network.packet.out;
 
-import blue.made.angleserver.Game;
 import blue.made.angleshared.AngleInfo;
 import blue.made.bcf.BCF;
 import blue.made.bcf.BCFWriter;
