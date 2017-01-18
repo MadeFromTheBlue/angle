@@ -1,10 +1,8 @@
 package blue.made.angleserver.world;
 
 import blue.made.angleserver.entity.minions.Minion;
-import blue.made.angleserver.util.bounds.PointBoundQ;
-import org.apache.commons.math3.analysis.function.Min;
+import blue.made.angleserver.entity.towers.Tower;
 
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -13,4 +11,5 @@ import java.util.List;
  */
 public class Chunk {
     public List<Minion> minions = new LinkedList<>();
+    public List<Tower> towers = new LinkedList<>();
 }
