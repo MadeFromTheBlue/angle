@@ -16,6 +16,7 @@ import java.io.*;
  */
 public class Util {
     public static AssetSource<JsonElement> jsonConfigs;
+
     static {
         JsonParser parse = new JsonParser();
         jsonConfigs = new UncachedAssetSource<JsonElement>() {
@@ -38,6 +39,7 @@ public class Util {
     }
 
     public static AssetSource<BCFItem> bcfConfigs;
+
     static {
         JsonParser parse = new JsonParser();
         bcfConfigs = new UncachedAssetSource<BCFItem>() {
@@ -87,18 +89,6 @@ public class Util {
     }
 
     /**
-     * Gets a JsonElement representing the root JSON object in the file.
-     *
-     * @param file the file name to read from
-     * @return a JsonElement representing the root JSON object in the file
-     * @throws FileNotFoundException if the file does not exist
-     */
-    public static JsonElement getJsonFromFile(String file) throws FileNotFoundException {
-        InputStream s = newFileStream(file);
-        return new JsonParser().parse(new InputStreamReader(s));
-    }
-
-    /**
      * Normalizes an angle to between [-pi, pi] radians.
      *
      * @param theta the angle to bound in radians
@@ -134,11 +124,10 @@ public class Util {
         return false;
     }
 
-    // TODO: FIX THIS CRAP
-    private static long bs = 39274917;
+    private static long seed = System.currentTimeMillis();
 
-    @Deprecated // TODO: Once this is fixed, un-deprecate
+    // TODO: Change this one day?
     public static long generateUUID() {
-        return System.currentTimeMillis() ^ bs++; // TODO: FIX THIS
+        return seed++;
     }
 }

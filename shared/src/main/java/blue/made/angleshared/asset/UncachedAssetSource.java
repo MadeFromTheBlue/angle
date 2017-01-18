@@ -2,7 +2,6 @@ package blue.made.angleshared.asset;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.ExecutionException;
 
 /**
  * Created by Sam Sartor on 12/23/2016.
@@ -23,7 +22,7 @@ public abstract class UncachedAssetSource<A> implements WaitingAssetSource<A> {
 
     @Override
     public synchronized Handle<A> get(String group, String id) {
-        Handle<A> out = new Handle<>(id, group, this);
+        Handle<A> out = new Handle<>(id, group, this, performSync);
         if (isReady()) {
             loadInto(out, group, id);
         } else {

@@ -43,12 +43,7 @@ public class Game {
 
         world = new World(tags);
 
-        try {
-            JSONConfig.loadWorld(world, Util.getJsonFromFile("default-config.json"));
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-            return;
-        }
+        JSONConfig.loadWorld(world, Util.jsonConfigs.get("angle","default-config").pull());
     }
 
     public void flushClients() {

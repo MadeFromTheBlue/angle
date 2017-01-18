@@ -39,7 +39,7 @@ public abstract class CachedPermanentAssetSource<A> implements WaitingAssetSourc
 
     @Override
     public synchronized Handle<A> get(String group, String id) {
-        Handle<A> out = new Handle<>(id, group, this);
+        Handle<A> out = new Handle<>(id, group, this, performSync);
         if (isReady()) {
             loadInto(out, group, id);
         } else {
