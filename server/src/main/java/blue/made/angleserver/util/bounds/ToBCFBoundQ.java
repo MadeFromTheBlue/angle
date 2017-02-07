@@ -34,14 +34,10 @@ public class ToBCFBoundQ extends TransformedBoundQ {
     public boolean doBox(int fromx, int fromy, int tox, int toy) {
         try {
             BCFWriter.Map map = out.startMap();
-            map.writeName("fromx");
-            map.write(fromx);
-            map.writeName("fromy");
-            map.write(fromy);
-            map.writeName("tox");
-            map.write(tox);
-            map.writeName("toy");
-            map.write(toy);
+            map.put("fromx", fromx);
+            map.put("fromy", fromy);
+            map.put("tox", tox);
+            map.put("toy", toy);
             map.end();
         } catch (IOException e) {
             throw new IllegalStateException("Could not write a bounds feature", e);
@@ -53,10 +49,8 @@ public class ToBCFBoundQ extends TransformedBoundQ {
     public boolean doSingle(int x, int y) {
         try {
             BCFWriter.Map map = out.startMap();
-            map.writeName("x");
-            map.write(x);
-            map.writeName("y");
-            map.write(y);
+            map.put("x", x);
+            map.put("y", y);
             map.end();
         } catch (IOException e) {
             throw new IllegalStateException("Could not write a bounds feature", e);

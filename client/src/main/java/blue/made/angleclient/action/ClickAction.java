@@ -21,10 +21,8 @@ public class ClickAction extends Action {
             public void onLClick() {
                 Game.INSTANCE.net.send(data -> {
                     BCFWriter.Map map = encodeBase(ClickAction.this, target, data);
-                    map.writeName("clickx");
-                    map.write(ui.gu.getMouseX());
-                    map.writeName("clicky");
-                    map.write(ui.gu.getMouseY());
+                    map.put("clickx", ui.gu.getMouseX());
+                    map.put("clicky", ui.gu.getMouseY());
                     return 0x60;
                 });
                 ui.pop();

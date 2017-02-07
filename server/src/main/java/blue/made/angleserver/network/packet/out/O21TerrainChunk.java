@@ -30,10 +30,8 @@ public class O21TerrainChunk extends OPacketBCF {
     public void writeData(BCFWriter bcf) throws IOException {
         BCFWriter.Map map = bcf.startMap();
 
-        map.writeName("x");
-        map.write(x);
-        map.writeName("y");
-        map.write(y);
+        map.put("x", x);
+        map.put("y", y);
 
         int x0 = x << World.CHUNK_WIDTH_BITS;
         int x1 = x0 + World.CHUNK_WIDTH;
@@ -64,8 +62,7 @@ public class O21TerrainChunk extends OPacketBCF {
                 }
             }
         }
-        map.writeName("tile_tags");
-        map.write(tagbytes);
+        map.put("tile_tags", tagbytes);
 
         map.end();
     }

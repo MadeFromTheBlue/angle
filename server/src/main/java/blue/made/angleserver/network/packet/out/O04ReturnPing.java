@@ -17,8 +17,7 @@ public class O04ReturnPing extends OPacketBCF {
     @Override
     public void writeData(BCFWriter bcf) throws IOException {
         BCFWriter.Map map = bcf.startMap();
-        map.writeName("queue_time");
-        map.write(pingReceiveTime - System.nanoTime());
+        map.put("queue_time", pingReceiveTime - System.nanoTime());
         map.end();
     }
 }
