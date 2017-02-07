@@ -30,8 +30,7 @@ public class O41EntityData extends OPacketBCF {
     @Override
     public void writeData(BCFWriter bcf) throws IOException {
         BCFWriter.Map map = bcf.startMap();
-        map.writeName("id");
-        map.write(uuid);
+        map.put("id", uuid);
         data.append(map);
         map.end();
     }

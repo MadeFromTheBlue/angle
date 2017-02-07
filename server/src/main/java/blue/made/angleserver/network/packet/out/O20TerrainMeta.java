@@ -25,12 +25,9 @@ public class O20TerrainMeta extends OPacketBCF {
     public void writeData(BCFWriter bcf) throws IOException {
         BCFWriter.Map map = bcf.startMap();
 
-        map.writeName("xwidth");
-        map.write(world.xwidth);
-        map.writeName("ywidth");
-        map.write(world.ywidth);
-        map.writeName("chunk_size");
-        map.write(World.CHUNK_WIDTH);
+        map.put("xwidth", world.xwidth);
+        map.put("ywidth", world.ywidth);
+        map.put("chunk_size", World.CHUNK_WIDTH);
 
         if (!minimal) {
             map.writeName("tile_tag_reg");
@@ -39,8 +36,7 @@ public class O20TerrainMeta extends OPacketBCF {
                 if (t != null) {
                     tags.writeName(t.getName());
                     BCFWriter.Map tag = tags.startMap();
-                    tag.writeName("id");
-                    tag.write(t.getId());
+                    tag.put("id", t.getId());
                     tag.writeName("parents");
                     BCFWriter.Array pars = tag.startArray(BCFType.STRING, t.parents.size());
                     for (TileTag p : t.parents) pars.write(p.getName());

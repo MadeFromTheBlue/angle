@@ -27,10 +27,8 @@ public class Action {
 
     public static BCFWriter.Map encodeBase(Action a, Entity t, ByteBuf data) throws IOException {
         BCFWriter.Map map = new BCFWriter(data).startMap();
-        map.writeName("action");
-        map.write(a.id);
-        map.writeName("targets");
-        map.write(t.uuid);
+        map.put("action", a.id);
+        map.put("targets", t.uuid);
         return map;
     }
 }

@@ -13,10 +13,8 @@ public abstract class Action {
     String registeredId;
 
     public void writeSpec(BCFWriter.Map to) throws IOException {
-        to.writeName("id");
-        to.write(registeredId);
-        to.writeName("uitype");
-        to.write(getUIType());
+        to.put("id", registeredId);
+        to.put("uitype", this.getUIType());
     }
 
     public String getRegisteredId() {
