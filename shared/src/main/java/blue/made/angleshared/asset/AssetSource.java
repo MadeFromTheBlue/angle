@@ -2,7 +2,6 @@ package blue.made.angleshared.asset;
 
 /**
  * Created by Sam Sartor on 12/23/2016.
- *
  */
 public interface AssetSource<A> {
     public Handle<A> get(String group, String id);

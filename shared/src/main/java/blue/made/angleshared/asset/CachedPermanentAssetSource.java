@@ -18,13 +18,13 @@ public abstract class CachedPermanentAssetSource<A> implements WaitingAssetSourc
 
     public CachedPermanentAssetSource() {
         cache = CacheBuilder
-        .newBuilder()
-        .build(new CacheLoader<CombinedName, A>() {
-            @Override
-            public A load(CombinedName key) throws Exception {
-                return CachedPermanentAssetSource.this.load(key.group, key.id);
-            }
-        });
+                .newBuilder()
+                .build(new CacheLoader<CombinedName, A>() {
+                    @Override
+                    public A load(CombinedName key) throws Exception {
+                        return CachedPermanentAssetSource.this.load(key.group, key.id);
+                    }
+                });
     }
 
     protected abstract A load(String group, String id) throws Exception;
@@ -39,7 +39,11 @@ public abstract class CachedPermanentAssetSource<A> implements WaitingAssetSourc
 
     @Override
     public synchronized Handle<A> get(String group, String id) {
-        Handle<A> out = new Handle<>(id, group, this, performSync);
+        Handle<A> out = new Handle<>(id, group, this, () -> {
+            /* TODO: PERFORM SYNC, RETURN EXCEPTION IF NECESSARY */
+            return null;
+        });
+
         if (isReady()) {
             loadInto(out, group, id);
         } else {

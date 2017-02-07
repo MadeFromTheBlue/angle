@@ -22,7 +22,11 @@ public abstract class UncachedAssetSource<A> implements WaitingAssetSource<A> {
 
     @Override
     public synchronized Handle<A> get(String group, String id) {
-        Handle<A> out = new Handle<>(id, group, this, performSync);
+        Handle<A> out = new Handle<>(id, group, this, () -> {
+            /* TODO: PERFORM SYNC, RETURN EXCEPTION IF NECESSARY */
+            return null;
+        });
+
         if (isReady()) {
             loadInto(out, group, id);
         } else {
