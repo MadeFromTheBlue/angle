@@ -1,6 +1,6 @@
 package blue.made.angleserver;
 
-import java.security.InvalidParameterException;
+import blue.made.angleshared.exceptions.AngleException;
 
 /**
  * Created by Sam Sartor on 4/25/16.
@@ -15,7 +15,7 @@ public class Player {
 
     public void spendGold(int amount) {
         if (!hasFunds(amount))
-            throw new InvalidParameterException("Player does not have enough funds.");
+            throw new AngleException("InsufficientFunds");
 
         gold -= amount;
     }

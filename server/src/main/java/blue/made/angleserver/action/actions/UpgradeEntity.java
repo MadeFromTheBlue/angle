@@ -4,13 +4,14 @@ import blue.made.angleserver.Game;
 import blue.made.angleserver.Player;
 import blue.made.angleserver.action.Action;
 import blue.made.angleserver.entity.Entity;
-import blue.made.angleshared.exceptions.InvalidConfigurationException;
+import blue.made.angleshared.exceptions.AngleException;
 import blue.made.angleshared.resolver.Provides;
 import blue.made.bcf.BCFItem;
 import blue.made.bcf.BCFMap;
 import com.google.common.base.Strings;
 
 import java.security.InvalidParameterException;
+import java.util.HashMap;
 
 
 /**
@@ -26,7 +27,9 @@ public class UpgradeEntity extends Action {
 
         BCFItem upgradeToItem = data.get("upgrade_to");
         if (upgradeToItem == null || Strings.isNullOrEmpty(upgradeToItem.asString()))
-            throw new InvalidConfigurationException("UpgradeEntity requires upgrade_to to be specified");
+            throw new AngleException("InvalidConfigurationException", new HashMap<String, String>() {{
+                put("message", "UpgradeEntity requires upgrade_to to be specified");
+            }});
 
         long uuid = uuidItem.asNumeric().longValue();
         // TODO: Check if upgrade can happen, etc.
