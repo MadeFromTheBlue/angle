@@ -96,6 +96,13 @@ public class PacketManager {
 
             return new ServerInfo(name, desc, ico, version.get(0).asNumeric().shortValue(), version.get(1).asNumeric().shortValue(), version.get(2).asNumeric().shortValue());
         };
+        ipackets[0x02] = (ByteBuf data) -> {
+            BCFReader reader = new BCFReader(data);
+            reader.next();
+            BCFMap map = reader.read().asMap();
+
+            return (IPacket) () -> Game.configerMerger.merge(map);
+        };
         ipackets[0x12] = (ByteBuf data) -> {
             BCFReader reader = new BCFReader(data);
             BCFMap map = BCF.read(reader).asMap();

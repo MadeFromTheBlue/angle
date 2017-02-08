@@ -7,6 +7,7 @@ import blue.made.angleserver.network.Client;
 import blue.made.angleserver.network.packet.out.OPacket;
 import blue.made.angleserver.world.World;
 import blue.made.angleserver.world.tags.TagRegistry;
+import blue.made.angleshared.ConfigMerge;
 import blue.made.angleshared.resolver.Resolver;
 import blue.made.angleshared.util.Util;
 
@@ -25,6 +26,7 @@ public class Game {
     public static Game INSTANCE = new Game();
     public static Resolver entityResolver = new Resolver();
     public static Resolver actionResolver = new Resolver();
+    public static ConfigMerge configMerger = new ConfigMerge(entityResolver);
 
     private boolean gameOver;
     private Instant now;
@@ -40,6 +42,8 @@ public class Game {
     public void start() {
         actionResolver.addPackage("blue.made.angleserver.action.actions", Action.class::isAssignableFrom);
         entityResolver.addPackage("blue.made.angleserver.entity", Entity.class::isAssignableFrom);
+
+        configMerger.merge(Util.bcfConfigs.get("main", "master_config").pull().asMap());
 
         world = new World(tags);
 

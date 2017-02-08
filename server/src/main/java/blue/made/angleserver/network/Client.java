@@ -4,6 +4,7 @@ import blue.made.angleserver.Game;
 import blue.made.angleserver.Player;
 import blue.made.angleserver.network.packet.in.I01PreConnect;
 import blue.made.angleserver.network.packet.out.O01ServerInfo;
+import blue.made.angleserver.network.packet.out.O02Configs;
 import blue.made.angleserver.network.packet.out.O20TerrainMeta;
 import blue.made.angleserver.network.packet.out.OPacket;
 import io.netty.channel.Channel;
@@ -25,6 +26,7 @@ public class Client {
 
     public void onConnect() {
         send(new O01ServerInfo());
+        send(new O02Configs(Game.configMerger.getCombined()));
     }
 
     public void onActivate(I01PreConnect info) {
