@@ -1,10 +1,7 @@
 package blue.made.angleserver.network;
 
 import blue.made.angleserver.network.packet.PacketManager;
-import blue.made.angleserver.network.packet.in.I01PreConnect;
-import blue.made.angleserver.network.packet.in.I02Request;
-import blue.made.angleserver.network.packet.in.I04Ping;
-import blue.made.angleserver.network.packet.in.I60Action;
+import blue.made.angleserver.network.packet.in.*;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
@@ -48,6 +45,7 @@ public class Network {
         packs.register(0x01, new I01PreConnect.Loader());
         packs.register(0x02, new I02Request.Loader());
         packs.register(0x04, new I04Ping.Loader());
+        packs.register(0x10, new I10Command.Loader());
         packs.register(0x60, new I60Action.Loader());
     }
 }

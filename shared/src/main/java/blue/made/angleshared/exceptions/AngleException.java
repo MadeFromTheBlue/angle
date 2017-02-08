@@ -14,9 +14,10 @@ import java.util.Map;
  * Created by Sumner Evans on 2016/12/20.
  */
 public class AngleException extends RuntimeException {
+    private static int next_id = 0;
 
     public class ErrorConfig {
-        public int id;
+        transient public final int id = next_id++;
         public String message;
     }
 
@@ -53,6 +54,14 @@ public class AngleException extends RuntimeException {
      */
     public AngleException(String s, Map<String, String> args) {
         super(constructMessage(errorConfigs.get(s), args));
+    }
+
+    public static AngleException create(String s, Object...args) {
+        HashMap<String, String> argsMap = new HashMap<>(args.length / 2);
+        for (int i = 0; i < args.length; i =+ 2) {
+            argsMap.put(String.valueOf(args[i]), String.valueOf(args[i + 1]));
+        }
+        return new AngleException(s, argsMap);
     }
 
     private static String constructMessage(ErrorConfig errorConfig, Map<String, String> args) {

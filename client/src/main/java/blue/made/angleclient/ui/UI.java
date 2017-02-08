@@ -7,7 +7,12 @@ import blue.made.angleclient.world.Tags;
 import blue.made.angleclient.world.World;
 import blue.made.angleshared.ConfigMerge;
 import blue.made.angleshared.util.Location;
+import blue.made.bcf.BCF;
 import blue.made.bcf.BCFWriter;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonParser;
 
 import javax.swing.*;
 import java.awt.*;
@@ -15,6 +20,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseWheelEvent;
+import java.io.Reader;
+import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.Deque;
 import java.util.LinkedList;
@@ -33,6 +40,7 @@ public class UI {
     JLabel mousepos = new JLabel("Test");
     JButton addStruct = new JButton();
     JPanel actButts = new JPanel();
+    JButton sendCommand = new JButton();
     Entity seled = null;
     Deque<UIState> states = new LinkedList<>();
 
@@ -48,8 +56,10 @@ public class UI {
         actButts.setBorder(BorderFactory.createLineBorder(Color.black));
 
         ui.add(mousepos);
-        ui.add(addStruct);
         ui.add(actButts);
+        ui.add(addStruct);
+        ui.add(sendCommand);
+
         addStruct.setText("Place Building");
         addStruct.setAction(new AbstractAction() {
             @Override
@@ -90,6 +100,38 @@ public class UI {
                         gu.notifyRedraw();
                     }
                 });
+            }
+        });
+
+        sendCommand.setText("Send Command");
+        sendCommand.setAction(new AbstractAction() {
+            JsonParser parser = new JsonParser();
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String command = (String) JOptionPane.showInputDialog(frame, "Command");
+                int split = command.indexOf(" ");
+                if (split < 0) {
+                    Game.INSTANCE.net.send(data -> {
+                        BCFWriter.Map map = new BCFWriter(data).startMap();
+                        map.writeName("name");
+                        map.write(command.trim());
+                        return 0x10;
+                    });
+                } else {
+                    Game.INSTANCE.net.send(data -> {
+                        BCFWriter.Map map = new BCFWriter(data).startMap();
+                        map.writeName("name");
+                        map.write(command.substring(0, split).trim());
+
+                        JsonElement json = parser.parse(command.substring(split).trim());
+                        map.writeName("args");
+                        map.write(BCF.fromJson(json));
+
+                        map.end();
+                        return 0x10;
+                    });
+                }
             }
         });
 
@@ -313,8 +355,6 @@ public class UI {
             frame.add(ui);
             frame.pack();
             frame.setVisible(true);
-
-            addStruct.setText("Place Building");
         });
     }
 

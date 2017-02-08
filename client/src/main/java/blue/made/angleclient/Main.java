@@ -48,5 +48,6 @@ public class Main {
             map.end();
             return 0x02;
         });
+        System.out.println("Started");
     }
 }

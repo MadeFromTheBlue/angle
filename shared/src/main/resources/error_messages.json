@@ -1,12 +1,14 @@
 {
     "InvalidConfigurationException": {
-        "id": 1,
         "message": "{message}",
         "category": "config"
     },
     "InsufficientFunds": {
-        "id": 2,
         "message": "Player does not have enough funds.",
         "category": "user"
+    },
+    "UnknownCommand": {
+        "message": "Command {com} is unknown.",
+        "category": "command"
     }
 }

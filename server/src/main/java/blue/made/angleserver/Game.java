@@ -1,9 +1,12 @@
 package blue.made.angleserver;
 
 import blue.made.angleserver.action.Action;
+import blue.made.angleserver.commands.Command;
+import blue.made.angleserver.commands.Commands;
 import blue.made.angleserver.config.JSONConfig;
 import blue.made.angleserver.entity.Entity;
 import blue.made.angleserver.network.Client;
+import blue.made.angleserver.network.packet.out.O02Configs;
 import blue.made.angleserver.network.packet.out.OPacket;
 import blue.made.angleserver.world.World;
 import blue.made.angleserver.world.tags.TagRegistry;
@@ -27,6 +30,7 @@ public class Game {
     public static Resolver entityResolver = new Resolver();
     public static Resolver actionResolver = new Resolver();
     public static ConfigMerge configMerger = new ConfigMerge(entityResolver);
+    public static Commands commands = new Commands();
 
     private boolean gameOver;
     private Instant now;
@@ -42,8 +46,9 @@ public class Game {
     public void start() {
         actionResolver.addPackage("blue.made.angleserver.action.actions", Action.class::isAssignableFrom);
         entityResolver.addPackage("blue.made.angleserver.entity", Entity.class::isAssignableFrom);
+        commands.resolver.addPackage("blue.made.angleserver.commands", Command.class::isAssignableFrom);
 
-        configMerger.merge(Util.bcfConfigs.get("main", "master_config").pull().asMap());
+        loadConfigs();
 
         world = new World(tags);
 
@@ -53,6 +58,11 @@ public class Game {
             e.printStackTrace();
             return;
         }
+    }
+
+    public void loadConfigs() {
+        configMerger.merge(Util.bcfConfigs.get("main", "master_config").pull().asMap());
+        sendToClients(new O02Configs(configMerger.getCombined()));
     }
 
     public void flushClients() {

@@ -78,6 +78,7 @@ public class Network {
                 try {
                     lastWriteFuture.sync();
                 } catch (InterruptedException e) {
+                    e.printStackTrace();
                 }
             }
             ch.disconnect();
