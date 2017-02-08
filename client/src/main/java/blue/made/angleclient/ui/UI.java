@@ -20,9 +20,9 @@ import java.util.LinkedList;
  * Created by Sam Sartor on 5/31/2016.
  */
 public class UI {
-    public double camx = 50;
-    public double camy = 50;
-    public double cams = 100;
+    public double camx = 8;
+    public double camy = 8;
+    public double cams = 16;
     int lastMouseX = -1;
     int lastMouseY = -1;
     public SwingGame gu;
@@ -54,44 +54,7 @@ public class UI {
                 ArrayList<String> list = new ArrayList<>();
                 list.add("[NONE]");
                 String in = (String) JOptionPane.showInputDialog(frame, "What type?", "Select", JOptionPane.QUESTION_MESSAGE, null, list.toArray(), null);
-                // TODO: Make this all work
-                /*final StructureSpec toplace = (StructureSpec) EntityRegistry.specs.get(in);
-                if (toplace != null) {
-                    push(new UIState(UI.this) {
-                        @Override
-                        public void onLClick() {
-                            Game.INSTANCE.net.send(data -> {
-                                BCFWriter.Map map = new BCFWriter(data).startMap();
-                                map.writeName("spec");
-                                map.write(toplace.id);
-                                map.writeName("x");
-                                map.write((int) gu.getMouseX());
-                                map.writeName("y");
-                                map.write((int) gu.getMouseY());
-                                map.writeName("r");
-                                map.write(0);
-                                map.end();
-                                return 0x40;
-                            });
-                            pop();
-                        }
-
-                        @Override
-                        public void paint(Graphics2D g) {
-                            int ds = (int) gu.drawScale;
-                            g.translate((int) gu.getMouseX() * gu.drawScale, (int) gu.getMouseY() * gu.drawScale);
-                            g.setColor(Color.RED);
-                            toplace.bounds.forEach(l -> {
-                                g.drawRect(l.x * ds, l.y * ds, ds, ds);
-                            });
-                        }
-
-                        @Override
-                        public void mouseMove() {
-                            gu.notifyRedraw();
-                        }
-                    });
-                }*/
+                System.out.println(in);
             }
         });
 

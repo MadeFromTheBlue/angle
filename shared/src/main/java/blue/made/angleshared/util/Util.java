@@ -16,6 +16,7 @@ import java.io.*;
  */
 public class Util {
     public static AssetSource<JsonElement> jsonConfigs;
+
     static {
         JsonParser parse = new JsonParser();
         jsonConfigs = new UncachedAssetSource<JsonElement>() {
@@ -38,6 +39,7 @@ public class Util {
     }
 
     public static AssetSource<BCFItem> bcfConfigs;
+
     static {
         JsonParser parse = new JsonParser();
         bcfConfigs = new UncachedAssetSource<BCFItem>() {
@@ -135,10 +137,10 @@ public class Util {
     }
 
     // TODO: FIX THIS CRAP
-    private static long bs = 39274917;
+    private static long seed = System.currentTimeMillis();
 
-    @Deprecated // TODO: Once this is fixed, un-deprecate
+    // TODO: Change this one day?
     public static long generateUUID() {
-        return System.currentTimeMillis() ^ bs++; // TODO: FIX THIS
+        return seed++;
     }
 }
