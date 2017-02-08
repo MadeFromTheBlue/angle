@@ -1,6 +1,5 @@
 package blue.made.angleserver.world;
 
-import blue.made.angleserver.Player;
 import blue.made.angleserver.entity.Entity;
 import blue.made.angleserver.world.tags.TagRegistry;
 import blue.made.angleserver.world.tags.Tags;

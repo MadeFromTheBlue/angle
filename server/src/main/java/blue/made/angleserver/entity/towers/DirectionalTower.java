@@ -4,7 +4,6 @@ import blue.made.angleserver.Game;
 import blue.made.angleserver.entity.minions.Minion;
 import blue.made.angleserver.util.bounds.BoundQ;
 import blue.made.angleserver.world.World;
-import blue.made.angleshared.exceptions.InvalidConfigurationException;
 import blue.made.angleshared.resolver.Provides;
 import blue.made.angleshared.util.Point;
 import blue.made.angleshared.util.Util;
@@ -43,25 +42,8 @@ public class DirectionalTower extends Tower {
     public DirectionalTower(long uuid, BCFMap config) {
         super(uuid, config);
 
-        // Randomize the angle by default, otherwise, set the angle to the configured initial_angle
-        BCFItem initialAngleConfig = config.get("initial_angle");
-        String angleConfig;
-
-        if (initialAngleConfig == null) angleConfig = "random";
-        else angleConfig = initialAngleConfig.asString("random");
-
-        float initialAngle;
-        if (angleConfig.equals("random")) {
-            initialAngle = (float) (new Random().nextFloat() * 2 * Math.PI - Math.PI);
-        } else {
-            try {
-                initialAngle = Float.parseFloat(angleConfig);
-            } catch (NumberFormatException ex) {
-                throw new InvalidConfigurationException("initial_angle must be a number");
-            }
-        }
-
-        this.setAngle(initialAngle);
+        // Randomize the angle by default, it can be overridden in loadActionData
+        this.setAngle((float) (new Random().nextFloat() * 2 * Math.PI - Math.PI));
 
         // By default, set to not AOE
         BCFItem isAOE = config.get("is_area_of_effect");
@@ -71,6 +53,16 @@ public class DirectionalTower extends Tower {
         fireRate = config.get("fire_rate").asNumeric().intValue();
         damage = config.get("damage").asNumeric().intValue();
         range = config.get("range").asNumeric().intValue();
+    }
+
+    @Override
+    protected void loadActionData(BCFMap data) {
+        super.loadActionData(data);
+
+        BCFItem angle = data.get("angle");
+        if (angle != null) {
+            this.setAngle(angle.asNumeric().floatValue());
+        }
     }
 
     @Override

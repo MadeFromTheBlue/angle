@@ -5,6 +5,9 @@ import blue.made.angleclient.entity.Entity;
 import blue.made.angleclient.world.Chunk;
 import blue.made.angleclient.world.Tags;
 import blue.made.angleclient.world.World;
+import blue.made.angleshared.ConfigMerge;
+import blue.made.angleshared.util.Location;
+import blue.made.bcf.BCFWriter;
 
 import javax.swing.*;
 import java.awt.*;
@@ -52,9 +55,41 @@ public class UI {
             @Override
             public void actionPerformed(ActionEvent e) {
                 ArrayList<String> list = new ArrayList<>();
-                list.add("[NONE]");
+                Game.configMerger.towerTypes.keySet().forEach(list::add);
                 String in = (String) JOptionPane.showInputDialog(frame, "What type?", "Select", JOptionPane.QUESTION_MESSAGE, null, list.toArray(), null);
-                System.out.println(in);
+
+                ConfigMerge.TowerType toPlace = Game.configMerger.towerTypes.get(in);
+                if (toPlace == null) return;
+
+                push(new UIState(UI.this) {
+                    @Override
+                    public void onLClick() {
+                        Game.INSTANCE.net.send(data -> {
+                            BCFWriter.Map map = new BCFWriter(data).startMap();
+                            map.put("action", "spawn_entity");
+                            map.put("type", in);
+                            map.put("x", gu.getMouseX());
+                            map.put("y", gu.getMouseY());
+                            map.put("r", 0);
+                            map.end();
+                            return 0x60;
+                        });
+                        pop();
+                    }
+
+                    @Override
+                    public void paint(Graphics2D g) {
+                        int ds = (int) gu.drawScale;
+                        g.translate((int) gu.getMouseX() * gu.drawScale, (int) gu.getMouseY() * gu.drawScale);
+                        g.setColor(Color.RED);
+                        g.drawRect(0, 0, ds, ds);
+                    }
+
+                    @Override
+                    public void mouseMove() {
+                        gu.notifyRedraw();
+                    }
+                });
             }
         });
 
@@ -197,6 +232,10 @@ public class UI {
             });
             gu.addPainter(draw -> {
                 int ds = (int) gu.drawScale;
+                for (Location l : world.towerLocations) {
+                    draw.setColor(Color.red);
+                    draw.fillRect(l.x * ds, l.y * ds, ds, ds);
+                }
                 /* TODO: Make this work
                 for (Structure struct : world.structures.valueCollection()) {
                     draw.setColor(struct.color);

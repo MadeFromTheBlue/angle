@@ -26,14 +26,13 @@ public class Client {
 
     public void onConnect() {
         send(new O01ServerInfo());
-        send(new O02Configs(Game.configMerger.getCombined()));
     }
 
     public void onActivate(I01PreConnect info) {
-        name = info.name;
         Game.INSTANCE.active.add(this);
+        send(new O02Configs(Game.configMerger.getCombined()));
         send(new O20TerrainMeta(Game.INSTANCE.world, false));
-
+        player = new Player(info.name);
     }
 
     public void onJoin() {

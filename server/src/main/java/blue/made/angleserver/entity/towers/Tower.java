@@ -32,8 +32,8 @@ import java.util.function.Consumer;
  * </p>
  */
 public abstract class Tower extends Entity {
-    public final int x;
-    public final int y;
+    public int x;
+    public int y;
     public final byte rotation = 0;
     public final int price;
     public final String[] upgradesTo;
@@ -59,8 +59,6 @@ public abstract class Tower extends Entity {
             throw new InvalidParameterException("Cannot have null configuration");
 
         this.price = config.get("price").asNumeric().intValue();
-        this.x = config.get("x").asNumeric().intValue();
-        this.y = config.get("y").asNumeric().intValue();
 
         BCFItem upgradesToConfig = config.get("upgrades_to");
         if (upgradesToConfig == null) {
@@ -116,7 +114,8 @@ public abstract class Tower extends Entity {
         // TODO: Tower must not overlap other structures and must be on ground
         // new BuildReqAnd(new BuildReqOverlap(), new BuildReqTilesAre(Tags.ground));
 
-        return w.getTile(x, y).isTagged(Tags.ground);
+        return true;
+        //return w.getTile(x, y).isTagged(Tags.ground);
     }
 
     @Override
@@ -138,8 +137,8 @@ public abstract class Tower extends Entity {
     }
 
     @Override
-    public void writeInitialData(BCFWriter.Map map) throws IOException {
-        super.writeInitialData(map);
+    public void writeClientSpawnData(BCFWriter.Map map) throws IOException {
+        super.writeClientSpawnData(map);
         map.put("x", x);
         map.put("y", y);
         // TODO: probably send information about where to fire projectiles from
@@ -159,6 +158,12 @@ public abstract class Tower extends Entity {
                 attack(m);
             }
         }
+    }
+
+    @Override
+    protected void loadActionData(BCFMap data) {
+        this.x = data.get("x").asNumeric().intValue();
+        this.y = data.get("y").asNumeric().intValue();
     }
 
     // Helper Methods

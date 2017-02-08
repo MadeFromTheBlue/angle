@@ -26,7 +26,7 @@ public class ConfigMerge {
         }
     }
 
-    public HashMap<String, TowerType> towerTypes;
+    public HashMap<String, TowerType> towerTypes = new HashMap<>();
 
     private Resolver resolver;
 

@@ -9,6 +9,10 @@ public class Player {
     private int gold = 100;
     private String name;
 
+    public Player(String name) {
+        this.name = name;
+    }
+
     public void spendGold(int amount) {
         if (!hasFunds(amount))
             throw new InvalidParameterException("Player does not have enough funds.");

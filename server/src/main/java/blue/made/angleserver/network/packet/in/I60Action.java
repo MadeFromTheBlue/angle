@@ -24,11 +24,11 @@ public class I60Action extends IPacket {
         }
     }
 
-    public BCFMap map;
+    public BCFMap data;
 
-    public I60Action(Client sender, BCFMap map) {
+    public I60Action(Client sender, BCFMap data) {
         super(sender);
-        this.map = map;
+        this.data = data;
     }
 
     private static LoadingCache<String, InvokeWrapper> creatorCache = CacheBuilder
@@ -43,8 +43,8 @@ public class I60Action extends IPacket {
 
     @Override
     public void onProcessed() {
-        InvokeWrapper creator = creatorCache.getUnchecked(map.get("action").asString());
+        InvokeWrapper creator = creatorCache.getUnchecked(data.get("action").asString());
         Action act = (Action) creator.invoke();
-        act.run(sender.player, map);
+        act.run(sender.player, data);
     }
 }

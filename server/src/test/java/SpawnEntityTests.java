@@ -31,7 +31,7 @@ public class SpawnEntityTests {
         data.put("x", 5);
         data.put("y", 1);
 
-        Player player = new Player();
+        Player player = new Player("test player");
 
         Action spawnAction = new SpawnEntity();
         spawnAction.run(player, data);

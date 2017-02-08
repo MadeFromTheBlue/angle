@@ -25,12 +25,12 @@ public class O01ServerInfo extends OPacketBCF {
         map.writeName("desc");
         map.write(desc);
         /*
-        map.writeName("ico_w");
-		map.write(0);
-		map.writeName("ico_h");
-		map.write(0);
-		map.writeName("ico");
-		map.write(Unpooled.buffer());
+        data.writeName("ico_w");
+		data.write(0);
+		data.writeName("ico_h");
+		data.write(0);
+		data.writeName("ico");
+		data.write(Unpooled.buffer());
 		*/
         map.writeName("version");
         map.write(BCF.store(AngleInfo.VERSION_MAJOR, AngleInfo.VERSION_MINOR, AngleInfo.VERSION_PATCH));

@@ -1,5 +1,8 @@
 package blue.made.angleclient.world;
 
+import blue.made.angleshared.util.Location;
+
+import java.util.HashSet;
 import java.util.function.Consumer;
 
 /**
@@ -14,7 +17,7 @@ public class World {
 
     public final Chunk[][] chunks;
 
-    //public final TLongObjectHashMap<Structure> structures = new TLongObjectHashMap<>();
+    public HashSet<Location> towerLocations = new HashSet<>();
 
     public Tags tags;
 

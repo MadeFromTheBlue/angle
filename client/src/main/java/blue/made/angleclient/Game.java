@@ -14,7 +14,7 @@ import java.util.function.Consumer;
 public class Game {
     public static Game INSTANCE = new Game();
     public static Resolver resolver = new Resolver();
-    public static ConfigMerge configerMerger = new ConfigMerge(resolver);
+    public static ConfigMerge configMerger = new ConfigMerge(resolver);
 
     public World world;
     public Network net;

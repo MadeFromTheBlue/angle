@@ -19,7 +19,7 @@ public class O40SpawnEntity extends OPacketBCF {
     @Override
     public void writeData(BCFWriter bcf) throws IOException {
         BCFWriter.Map map = bcf.startMap();
-        entity.writeInitialData(map);
+        entity.writeClientSpawnData(map);
         map.end();
     }
 }

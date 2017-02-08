@@ -8,6 +8,7 @@ import blue.made.angleclient.network.packet.in.ServerInfo;
 import blue.made.angleclient.world.Chunk;
 import blue.made.angleclient.world.Tags;
 import blue.made.angleclient.world.World;
+import blue.made.angleshared.util.Location;
 import blue.made.bcf.*;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -101,7 +102,7 @@ public class PacketManager {
             reader.next();
             BCFMap map = reader.read().asMap();
 
-            return (IPacket) () -> Game.configerMerger.merge(map);
+            return (IPacket) () -> Game.configMerger.merge(map);
         };
         ipackets[0x12] = (ByteBuf data) -> {
             BCFReader reader = new BCFReader(data);
@@ -167,9 +168,13 @@ public class PacketManager {
         ipackets[0x40] = (ByteBuf data) -> {
             Game game = Game.INSTANCE;
             BCFMap map = BCF.read(new BCFReader(data)).asMap();
+            int x = map.get("x").asNumericItem().asInt();
+            int y = map.get("y").asNumericItem().asInt();
+            Location l = new Location(x, y);
 
             return (IPacket) () -> {
                 // TODO: Actually spawn the entity
+                game.world.towerLocations.add(l);
             };
         };
         ipackets[0x41] = (ByteBuf data) -> {
