@@ -11,5 +11,236 @@
             "range": 5,
             "upgrades_to": ["towers.air2"]
         }
-    ]
+    ],
+    "numLives": 30,
+    "playRate": 1,
+    "levels": [
+        {
+            "levelNum": 1,
+            "waves": [
+                {
+                    "minion": "ground",
+                    "stats": {
+                        "speed": 1.5,
+                        "health": 10,
+                        "size": 0.6,
+                        "goldReward": 3
+                    },
+                    "count": 25,
+                    "start": 15,
+                    "end": 20
+                }
+            ]
+        },
+        {
+            "levelNum": 2,
+            "waves": [
+                {
+                    "minion": "ground",
+                    "stats": {
+                        "speed": 0.7,
+                        "health": 25,
+                        "size": 0.5,
+                        "goldReward": 5
+                    },
+                    "count": 25,
+                    "start": 15,
+                    "end": 23
+                },
+                {
+                    "minion": "air",
+                    "stats": {
+                        "speed": 2,
+                        "health": 20,
+                        "size": 0.7,
+                        "goldReward": 7
+                    },
+                    "count": 15,
+                    "start": 22,
+                    "end": 30
+                }
+            ]
+        },
+        {
+            "levelNum": 3,
+            "waves": [
+                {
+                    "minion": "ground",
+                    "stats": {
+                        "speed": 2,
+                        "health": 25,
+                        "size": 0.5,
+                        "goldReward": 5
+                    },
+                    "count": 35,
+                    "start": 15,
+                    "end": 26
+                },
+                {
+                    "minion": "ground",
+                    "stats": {
+                        "speed": 1,
+                        "health": 50,
+                        "size": 0.7,
+                        "goldReward": 10
+                    },
+                    "count": 10,
+                    "start": 25,
+                    "end": 30
+                }
+            ]
+        },
+        {
+            "levelNum": 4,
+            "waves": [
+                {
+                    "minion": "air",
+                    "stats": {
+                        "speed": 2.3,
+                        "health": 30,
+                        "size": 0.5,
+                        "goldReward": 8
+                    },
+                    "count": 25,
+                    "start": 15,
+                    "end": 23
+                },
+                {
+                    "minion": "ground",
+                    "stats": {
+                        "speed": 1,
+                        "health": 80,
+                        "size": 0.7,
+                        "goldReward": 10
+                    },
+                    "count": 20,
+                    "start": 20,
+                    "end": 30
+                },
+                {
+                    "minion": "ground",
+                    "stats": {
+                        "speed": 0.5,
+                        "health": 120,
+                        "size": 1,
+                        "goldReward": 15
+                    },
+                    "count": 5,
+                    "start": 25,
+                    "end": 30
+                }
+            ]
+        }
+    ],
+    "board": {
+        "height": 17,
+        "width": 17,
+        "nodes": {
+            "rstart": [
+                16.5,
+                4.5,
+                "tmerge"
+            ],
+            "tstart": [
+                11.5,
+                0.5,
+                "tmerge"
+            ],
+            "tmerge": [
+                11.5,
+                4.5,
+                "mmerge"
+            ],
+            "mmerge": [
+                11.5,
+                10.5,
+                "bend1"
+            ],
+            "bend1": [
+                11.5,
+                13.5,
+                "bend2"
+            ],
+            "bend2": [
+                8.5,
+                13.5,
+                "end"
+            ],
+            "end": [
+                8.5,
+                17.5
+            ],
+            "lstart1": [
+                0.5,
+                4.5,
+                "lbend"
+            ],
+            "lbend": [
+                5.5,
+                4.5,
+                "lmerge"
+            ],
+            "lmerge": [
+                5.5,
+                10.5,
+                "mmerge"
+            ],
+            "lstart2": [
+                0.5,
+                10.5,
+                "lmerge"
+            ]
+        },
+        "startNodes": [
+            "rstart",
+            "tstart",
+            "lstart1",
+            "lstart2"
+        ],
+        "endNodes": [
+            "end"
+        ],
+        "decorations": [
+            {
+                "type": "pillar",
+                "location": {
+                    "x": 30,
+                    "y": 30
+                }
+            },
+            {
+                "type": "pillar",
+                "location": {
+                    "x": 33,
+                    "y": 30
+                }
+            },
+            {
+                "type": "flag",
+                "location": {
+                    "x": 32,
+                    "y": 28
+                }
+            }
+        ],
+        "squareTypes": [
+            "GGGGGGGGGGGTGGGGG",
+            "GGGGGGGGGGGTGGGGG",
+            "GGGGGGGGGGGTGGGGG",
+            "GGGGGGGGGGGTGGGGG",
+            "TTTTTTGTTTGTTTTTT",
+            "GGGGGTGTTTGTGGGGG",
+            "GGGGGTGTTTGTGTTTT",
+            "GGGGGTGTTTGTGTTTT",
+            "GGGGGTGTTTGTGTTTT",
+            "GGGGGTGGGGGTGGGGG",
+            "TTTTTTTTTTTTGGGGG",
+            "GGGGGGGGGGGTGGGGG",
+            "GGGGGGGGGGGTGGGGG",
+            "GGGGGGGGTTTTGGGGG",
+            "GGGGGGGGTGGGGGGGG",
+            "GGGGGGGTTTGGGGGGG",
+            "GGGGGGGTTTGGGGGGG"
+        ]
+    }
 }

@@ -3,18 +3,20 @@ package blue.made.angleserver;
 import blue.made.angleserver.action.Action;
 import blue.made.angleserver.commands.Command;
 import blue.made.angleserver.commands.Commands;
-import blue.made.angleserver.config.JSONConfig;
 import blue.made.angleserver.entity.Entity;
 import blue.made.angleserver.network.Client;
 import blue.made.angleserver.network.packet.out.O02Configs;
 import blue.made.angleserver.network.packet.out.OPacket;
+import blue.made.angleserver.world.Tile;
 import blue.made.angleserver.world.World;
 import blue.made.angleserver.world.tags.TagRegistry;
+import blue.made.angleserver.world.tags.Tags;
 import blue.made.angleshared.ConfigMerge;
 import blue.made.angleshared.resolver.Resolver;
 import blue.made.angleshared.util.Util;
+import blue.made.bcf.BCFList;
+import blue.made.bcf.BCFMap;
 
-import java.io.FileNotFoundException;
 import java.time.Instant;
 import java.util.ArrayList;
 
@@ -50,13 +52,31 @@ public class Game {
 
         loadConfigs();
 
+        initWorld();
+    }
+
+    private void initWorld() {
         world = new World(tags);
 
-        try {
-            JSONConfig.loadWorld(world, Util.getJsonFromFile("default-config.json"));
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-            return;
+        BCFMap boardConfig = configMerger.getCombined().get("board").asMap();
+
+        int width = boardConfig.get("width").asNumeric().intValue();
+        int height = boardConfig.get("height").asNumeric().intValue();
+
+        world.buildInitial(width, height);
+
+        // Deserialize the squareTypes
+        BCFList squareTypes = boardConfig.get("squareTypes").asList();
+
+        for (int i = 0; i < width; i++) {
+            for (int j = 0; j < height; j++) {
+                Tile tile = world.getTile(i, j);
+
+                if (squareTypes.get(j).asString().charAt(i) == 'T')
+                    tile.addTag(Tags.path);
+                else
+                    tile.addTag(Tags.ground);
+            }
         }
     }
 
