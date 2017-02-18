@@ -1,6 +1,6 @@
 {
     "InvalidConfigurationException": {
-        "message": "{message}",
+        "message": "Invalid Configuration: {message}",
         "category": "config"
     },
     "InsufficientFunds": {

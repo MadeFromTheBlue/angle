@@ -1,10 +1,14 @@
 {
-    "name": "Air Tower",
-    "provided_by": "directional_tower",
-    "dtheta": 0.02777777777777777,
-    "damage": 10,
-    "price": 30,
-    "fire_rate": 2,
-    "range": 5,
-    "upgrades_to": ["towers.air2"]
+    "towers": [
+        {
+            "name": "Air Tower",
+            "provided_by": "directional_tower",
+            "dtheta": 0.02777777777777777,
+            "damage": 10,
+            "price": 30,
+            "fire_rate": 2,
+            "range": 5,
+            "upgrades_to": ["towers.air2"]
+        }
+    ]
 }

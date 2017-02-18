@@ -12,11 +12,15 @@ import blue.made.angleserver.world.World;
 import blue.made.angleserver.world.tags.TagRegistry;
 import blue.made.angleserver.world.tags.Tags;
 import blue.made.angleshared.ConfigMerge;
+import blue.made.angleshared.exceptions.AngleException;
 import blue.made.angleshared.resolver.Resolver;
 import blue.made.angleshared.util.Util;
 import blue.made.bcf.BCFList;
 import blue.made.bcf.BCFMap;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
 
+import java.io.FileNotFoundException;
 import java.time.Instant;
 import java.util.ArrayList;
 
@@ -81,8 +85,16 @@ public class Game {
     }
 
     public void loadConfigs() {
-        configMerger.merge(Util.bcfConfigs.get("main", "master_config").pull().asMap());
-        sendToClients(new O02Configs(configMerger.getCombined()));
+        try {
+            JsonArray configFiles = Util.getJsonFromFile("config_registry.json").getAsJsonArray();
+
+            for (JsonElement e : configFiles) {
+                configMerger.merge(Util.bcfConfigs.get("main", e.getAsString()).pull().asMap());
+                sendToClients(new O02Configs(configMerger.getCombined()));
+            }
+        } catch (FileNotFoundException e) {
+            throw AngleException.create("InvalidConfigurationException", "message", e.getMessage());
+        }
     }
 
     public void flushClients() {

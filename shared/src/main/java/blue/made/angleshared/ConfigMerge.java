@@ -27,7 +27,7 @@ public class ConfigMerge {
     }
 
     public HashMap<String, TowerType> towerTypes = new HashMap<>();
-    public BCFMap board;
+    public BCFMap board = new BCFMap();
 
     private Resolver resolver;
 
@@ -36,7 +36,8 @@ public class ConfigMerge {
     }
 
     public void merge(BCFMap config) {
-        board = config.get("board").asMap();
+        BCFItem boardConfig = config.get("board");
+        if (boardConfig != null) board.putAll(boardConfig.asMap());
 
         BCFItem towersConfig = config.get("towers");
         if (towersConfig != null && towersConfig.isCollection()) {
@@ -60,7 +61,7 @@ public class ConfigMerge {
         towerTypes.values().forEach(t -> towers.add(t.config));
         map.put("towers", towers);
 
-        map.put("board",board);
+        map.put("board", board);
 
         return map;
     }

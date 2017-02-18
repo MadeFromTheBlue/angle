@@ -10,6 +10,12 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 
 import java.io.*;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.nio.file.*;
+import java.util.Collections;
+import java.util.Iterator;
+import java.util.stream.Stream;
 
 /**
  * Created by sumner on 11/30/16.
@@ -75,7 +81,6 @@ public class Util {
     public static InputStream newFileStream(String path) throws FileNotFoundException {
         ClassLoader cl = Util.class.getClassLoader();
         InputStream stream = cl.getResourceAsStream(path);
-
 
         if (stream == null) {
             try {
